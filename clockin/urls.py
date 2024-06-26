@@ -20,5 +20,5 @@ from employeeapp.views import employee
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-   
+    path('', employee),
 ]
