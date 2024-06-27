@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from employeeapp.forms import LoginForm
 from django.contrib.auth.models import auth
-
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     return render(request, 'employeeapp/index.html')
@@ -19,11 +19,15 @@ def login(request):
             
             if user is not None:
                 auth.login(request, user)
-                return redirect('home')
+                return redirect('dashboard')
     context = {'form': form}
     return render(request, 'employeeapp/login.html', context=context) 
 
 def logout(request):
     auth.logout(request)
     return redirect('login')
+
+@login_required(login_url='login')
+def dashboard(request):
+    return render(request, 'employeeapp/dashboard.html')
 
