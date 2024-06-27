@@ -1,6 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from django.shortcuts import redirect
 from employeeapp.forms import LoginForm
 from django.contrib.auth.models import auth
 
@@ -19,7 +18,7 @@ def login(request):
             user = authenticate(request, username=username, password=password)  
             
             if user is not None:
-                login(request, user)
+                auth.login(request, user)
                 return redirect('home')
     context = {'form': form}
     return render(request, 'employeeapp/login.html', context=context) 
