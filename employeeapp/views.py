@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from employeeapp.forms import LoginForm
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
+from .models import JobsDone
 
 def home(request):
     return render(request, 'employeeapp/index.html')
@@ -29,5 +30,9 @@ def logout(request):
 
 @login_required(login_url='login')
 def dashboard(request):
-    return render(request, 'employeeapp/dashboard.html')
+    job_done = JobsDone.objects.all()
+    context = {'job_done': job_done}
+    return render(request, 'employeeapp/dashboard.html', context=context)
+
+
 
