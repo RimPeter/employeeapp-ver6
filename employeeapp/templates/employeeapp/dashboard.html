@@ -11,6 +11,7 @@
                     <p>{{jobdone.job_title}}</p>
                     <p>{{jobdone.job_done_in_hours}}</p>
                     <p>{{jobdone.date_created}}</p>
+                    <div><a class="btn btn-success btn-sm" href="{% url 'jobdone' jobdone.id %}"> Click Here!<i class="fa fa-eye" aria-hidden="true"></i> </a></div>
 
 
                     {% endfor %}
