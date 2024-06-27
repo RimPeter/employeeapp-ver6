@@ -22,3 +22,8 @@ def login(request):
                 return redirect('home')
     context = {'form': form}
     return render(request, 'employeeapp/login.html', context=context) 
+
+def logout(request):
+    auth.logout(request)
+    return redirect('login')
+
