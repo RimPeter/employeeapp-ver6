@@ -39,3 +39,5 @@ class JobsDoneForm(forms.ModelForm):
     class Meta:
         model = JobsDone
         fields = ['job_title', 'job_done_in_hours']
+        
+

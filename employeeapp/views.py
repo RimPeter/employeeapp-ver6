@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
-from .forms import LoginForm, CustomUserCreationForm, JobsDoneForm, UpdateJobForm
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate
-from employeeapp.forms import LoginForm
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
-from .models import JobsDone
 from django.contrib import messages
+from django.utils import timezone
+from .forms import LoginForm, CustomUserCreationForm, JobsDoneForm, UpdateJobForm
+from .models import JobsDone, ClockIn
 
 
 def home(request):
@@ -47,14 +47,6 @@ def dashboard(request):
     context = {'job_done': job_done}
     return render(request, 'employeeapp/dashboard.html', context=context)
 
-# @login_required(login_url='login')
-# def add_job(request):
-#     if request.method == 'POST':
-#         job_title = request.POST.get('job_title')
-#         job_done_in_hours = request.POST.get('job_done_in_hours')
-#         JobsDone.objects.create(worker=request.user, job_title=job_title, job_done_in_hours=job_done_in_hours)
-#         return redirect('dashboard')
-#     return render(request, 'employeeapp/create-record.html')
 @login_required(login_url='login')
 def add_job(request):
     if request.method == 'POST':
@@ -82,11 +74,6 @@ def update_job(request, pk):
     context = {'form': form}
     return render(request, 'employeeapp/update-record.html', context=context)
 
-# @login_required(login_url='login')
-# def single_job(request, pk):
-#     all_jobs = JobsDone.objects.get(id=pk)
-#     context = {'all_jobs': all_jobs}
-#     return render(request, 'employeeapp/view-record.html', context=context)
 @login_required(login_url='login')
 def single_job(request, pk):
     jobdone = JobsDone.objects.get(id=pk)
@@ -101,4 +88,26 @@ def delete_job(request, pk):
     messages.info(request, 'Job Deleted')
     return redirect('dashboard')
 
+@login_required
+def clock_in_view(request):
+    if request.method == 'POST':
+        # Create a new ClockIn record for the current user
+        ClockIn.objects.create(worker=request.user, clock_in_time=timezone.now())
+        return redirect('dashboard')  # Redirect to the dashboard or another relevant page
+    return render(request, 'employeeapp/index.html')
 
+
+@login_required
+def clock_out_view(request, clockin_id):
+    # Get the specific ClockIn record by ID
+    clockin_record = get_object_or_404(ClockIn, id=clockin_id)
+    # Update the clock_out_time and save
+    clockin_record.clock_out()
+    return redirect('dashboard')  # Redirect to the dashboard or another relevant page
+
+@login_required
+def clock_in(request):
+    if request.method == 'POST':
+        ClockIn.objects.create(worker=request.user)
+        return redirect('dashboard')
+    return render(request, 'employeeapp/clock-in.html')

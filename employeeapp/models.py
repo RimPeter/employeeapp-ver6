@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+
 
 class JobsDone(models.Model):
     JOB_DESCRIPTIONS = [
@@ -27,4 +29,15 @@ class JobsDone(models.Model):
     def __str__(self):
         return self.job_title
     
+class ClockIn(models.Model):
+    worker = models.ForeignKey(User, on_delete=models.PROTECT, related_name='clock_ins')
+    clock_in_time = models.DateTimeField(auto_now_add=True)
+    clock_out_time = models.DateTimeField(null=True, blank=True)
 
+    def __str__(self):
+        return f'{self.worker.username} clocked in at {self.clock_in_time}'
+
+    def clock_out(self):
+        self.clock_out_time = timezone.now()
+        self.save()
+        return f'{self.worker.username} clocked out at {self.clock_out_time}'
