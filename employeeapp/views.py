@@ -46,14 +46,28 @@ def dashboard(request):
     context = {'job_done': job_done}
     return render(request, 'employeeapp/dashboard.html', context=context)
 
+# @login_required(login_url='login')
+# def add_job(request):
+#     if request.method == 'POST':
+#         job_title = request.POST.get('job_title')
+#         job_done_in_hours = request.POST.get('job_done_in_hours')
+#         JobsDone.objects.create(worker=request.user, job_title=job_title, job_done_in_hours=job_done_in_hours)
+#         return redirect('dashboard')
+#     return render(request, 'employeeapp/create-record.html')
 @login_required(login_url='login')
 def add_job(request):
     if request.method == 'POST':
-        job_title = request.POST.get('job_title')
-        job_done_in_hours = request.POST.get('job_done_in_hours')
-        JobsDone.objects.create(worker=request.user, job_title=job_title, job_done_in_hours=job_done_in_hours)
-        return redirect('dashboard')
-    return render(request, 'employeeapp/create-record.html')
+        form = JobsDoneForm(request.POST)
+        if form.is_valid():
+            job = form.save(commit=False)
+            job.worker = request.user
+            job.save()
+            return redirect('dashboard')
+    else:
+        form = JobsDoneForm()
+    context = {'form': form}
+    return render(request, 'employeeapp/create-record.html', context)
+
 
 @login_required(login_url='login')
 def update_job(request, pk):
