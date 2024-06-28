@@ -23,10 +23,7 @@ class UpdateJobForm(forms.ModelForm):
     class Meta:
         model = JobsDone
         fields = ['job_title', 'job_done_in_hours']
-        widgets = {
-            'job_title': forms.Select(attrs={'class': 'form-control'}),
-            'job_done_in_hours': forms.NumberInput(attrs={'class': 'form-control'}),
-        }
+      
         
 class CreateJobForm(forms.ModelForm):
     class Meta:

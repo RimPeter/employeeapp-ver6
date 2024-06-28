@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import LoginForm, CustomUserCreationForm, JobsDoneForm
+from .forms import LoginForm, CustomUserCreationForm, JobsDoneForm, UpdateJobForm
 from django.contrib.auth import authenticate
 from employeeapp.forms import LoginForm
 from django.contrib.auth.models import auth
@@ -72,9 +72,9 @@ def add_job(request):
 @login_required(login_url='login')
 def update_job(request, pk):
     job = JobsDone.objects.get(id=pk)
-    form = JobsDone(instance=job)
+    form = UpdateJobForm(instance=job)
     if request.method == 'POST':
-        form = JobsDone(request.POST, instance=job)
+        form = UpdateJobForm(request.POST, instance=job)
         if form.is_valid():
             form.save()
             return redirect('dashboard')
