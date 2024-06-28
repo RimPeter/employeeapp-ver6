@@ -1,13 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import LoginForm, CustomUserCreationForm, JobsDoneForm, UpdateJobForm
 from django.contrib.auth import authenticate
 from employeeapp.forms import LoginForm
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
-from .models import JobsDone
+from .models import JobsDone, ClockIn
 from django.contrib import messages
 from django.utils import timezone
-from .models import TimeLog
+from django.http import HttpResponse
+
 
 def home(request):
     return render(request, 'employeeapp/index.html')
@@ -102,21 +103,7 @@ def delete_job(request, pk):
     messages.info(request, 'Job Deleted')
     return redirect('dashboard')
 
-@login_required(login_url='login')
-def clock_in(request):
-    if request.method == 'POST':
-        TimeLog.objects.create(user=request.user, clock_in_time=timezone.now())
-        return redirect('index')
-    return render(request, 'employeeapp/index.html')
-
-@login_required(login_url='login')
-def clock_out(request):
-    if request.method == 'POST':
-        try:
-            time_log = TimeLog.objects.filter(user=request.user, clock_out_time__isnull=True).latest('clock_in_time')
-            time_log.clock_out_time = timezone.now()
-            time_log.save()
-        except TimeLog.DoesNotExist:
-            pass  
-        return redirect('index')
-    return render(request, 'employeeapp/index.html')
+def clock_out_view(request, clockin_id):
+    clockin_record = get_object_or_404(ClockIn, id=clockin_id)
+    clockin_record.clock_out()
+    return HttpResponse(f"Clocked out successfully! Worked hours: {clockin_record.worked_hours}")

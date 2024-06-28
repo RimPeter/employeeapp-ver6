@@ -1,15 +1,16 @@
 {% extends 'employeeapp/base.html' %}
 
 {% block content %}
-<div class="container">
-    <h1>Welcome, {{ user.username }}</h1>
-    <form method="POST" action="{% url 'clock-in' %}">
+#create clockin form
+<div class="container bg-light shadow-md p-5 form-layout">
+    <h3>Clock In</h3>
+    <h6>Fill in the details below to clock in.</h6>
+    <hr>
+    <form method="POST" autocomplete="off">
         {% csrf_token %}
-        <button type="submit" class="btn btn-success">Clock In</button>
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Clock In</button>
     </form>
-    <form method="POST" action="{% url 'clock-out' %}">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Clock Out</button>
-    </form>
-</div>
+    <br>
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">Return to Dashboard &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i></a>
 {% endblock %}
