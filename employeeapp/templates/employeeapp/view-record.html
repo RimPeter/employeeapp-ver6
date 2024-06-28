@@ -1,54 +1,25 @@
-{% extends 'employeeapp/base.html' %}
-
-{% block content %}
-<body>
-
-    <div class="container bg-light shadow-md p-5 form-layout">
-
-        <h3> View record </h3>
-
-        <h6> View your record down below. </h6>
-
-        <hr>
-        <br>
-
-        <form method="POST" autocomplete="off">
-
-            {% csrf_token %}
-
-            {{form.worker}}
-
-            <br>
-
-            {{form.related_name}}
-
-            <br>
-
-            {{form.job_title}}
-
-            <br>
-
-            {{form.job_done_in_hours}}
-
-            <br>
-
-            {{form.date_created}}
-
-            <br>
-
-            <br>
-
-         <a href="{% url 'dashboard' %}" class="btn btn-secondary"> Return &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i> </a>
-
-    &nbsp;
-
-    <a href="{% url 'update-job' jobdone.id %}" class="btn btn-info"> Update record &nbsp; <i class="fa fa-plus" aria-hidden="true"></i> </a>
-
-    &nbsp;
-
-    <a href="{% url 'delete-job' jobdone.id %}" class="btn btn-danger"> Delete &nbsp;<i class="fa fa-minus-square" aria-hidden="true"></i> </a>
-
-
-        </form>
-
+{% extends 'employeeapp/base.html' %} {% block content %}
+<div class="container bg-light shadow-md p-5 form-layout">
+  <h3>View Record</h3>
+  <h6>View your record below.</h6>
+  <hr />
+  <br />
+  <p><strong>Worker:</strong> {{ jobdone.worker }}</p>
+  <p><strong>Related Name:</strong> {{ jobdone.related_name }}</p>
+  <p><strong>Job Title:</strong> {{ jobdone.job_title }}</p>
+  <p><strong>Job Done in Hours:</strong> {{ jobdone.job_done_in_hours }}</p>
+  <p><strong>Date Created:</strong> {{ jobdone.date_created }}</p>
+  <br />
+  <a href="{% url 'dashboard' %}" class="btn btn-secondary"
+    >Return &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i
+  ></a>
+  &nbsp;
+  <a href="{% url 'update-job' jobdone.id %}" class="btn btn-info"
+    >Update Record &nbsp; <i class="fa fa-plus" aria-hidden="true"></i
+  ></a>
+  &nbsp;
+  <a href="{% url 'delete-job' jobdone.id %}" class="btn btn-danger"
+    >Delete &nbsp;<i class="fa fa-minus-square" aria-hidden="true"></i
+  ></a>
+</div>
 {% endblock %}

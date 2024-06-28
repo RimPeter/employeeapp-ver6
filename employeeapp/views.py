@@ -67,11 +67,17 @@ def update_job(request, pk):
     context = {'form': form}
     return render(request, 'employeeapp/update-record.html', context=context)
 
+# @login_required(login_url='login')
+# def single_job(request, pk):
+#     all_jobs = JobsDone.objects.get(id=pk)
+#     context = {'all_jobs': all_jobs}
+#     return render(request, 'employeeapp/view-record.html', context=context)
 @login_required(login_url='login')
 def single_job(request, pk):
-    all_jobs = JobsDone.objects.get(id=pk)
-    context = {'all_jobs': all_jobs}
+    jobdone = JobsDone.objects.get(id=pk)
+    context = {'jobdone': jobdone}
     return render(request, 'employeeapp/view-record.html', context=context)
+
 
 @login_required(login_url='login')
 def delete_job(request, pk):
