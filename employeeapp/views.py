@@ -1,13 +1,11 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from .forms import LoginForm, CustomUserCreationForm, JobsDoneForm, UpdateJobForm
 from django.contrib.auth import authenticate
 from employeeapp.forms import LoginForm
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
-from .models import JobsDone, ClockIn
+from .models import JobsDone
 from django.contrib import messages
-from django.utils import timezone
-from django.http import HttpResponse
 
 
 def home(request):

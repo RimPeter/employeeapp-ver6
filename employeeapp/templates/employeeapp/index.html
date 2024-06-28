@@ -2,6 +2,8 @@
 
 {% block content %}
 #create clockin form
+
+{% comment %} 
 <div class="container bg-light shadow-md p-5 form-layout">
     <h3>Clock In</h3>
     <h6>Fill in the details below to clock in.</h6>
@@ -34,5 +36,5 @@
             {% endfor %}
         </tbody>
     </table>
-    <a href="{% url 'dashboard' %}" class="btn btn-secondary">Return to Dashboard &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">Return to Dashboard &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i></a> {% endcomment %}
 {% endblock %}
