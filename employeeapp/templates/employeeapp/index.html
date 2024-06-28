@@ -12,5 +12,27 @@
         <button type="submit" class="btn btn-primary">Clock In</button>
     </form>
     <br>
+     <table>
+        <thead>
+            <tr>
+                <th>Clocked In</th>
+                <th>Clocked Out</th>
+                <th>Worked Hours</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for clockin in clock_in %}
+            <tr>
+                <td>{{ clockin.id }}</td>
+                <td>{{ clockin.user }}</td>
+                <td>{{ clockin.clocked_in }}</td>
+                <td>{{ clockin.clocked_out }}</td>
+                <td>{{ clockin.worked_hours }}</td>
+                <td><a class="btn btn-success btn-sm" href="{% url 'single-job' jobdone.id %}"> Clock Out<i class="fa fa-eye" aria-hidden="true"></i></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     <a href="{% url 'dashboard' %}" class="btn btn-secondary">Return to Dashboard &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i></a>
 {% endblock %}
