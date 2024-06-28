@@ -103,7 +103,4 @@ def delete_job(request, pk):
     messages.info(request, 'Job Deleted')
     return redirect('dashboard')
 
-def clock_out_view(request, clockin_id):
-    clockin_record = get_object_or_404(ClockIn, id=clockin_id)
-    clockin_record.clock_out()
-    return HttpResponse(f"Clocked out successfully! Worked hours: {clockin_record.worked_hours}")
+

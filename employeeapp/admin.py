@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import JobsDone, ClockIn
+from .models import JobsDone
 
 admin.site.register(JobsDone)
-admin.site.register(ClockIn)
+
 
 

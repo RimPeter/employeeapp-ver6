@@ -28,17 +28,4 @@ class JobsDone(models.Model):
     def __str__(self):
         return self.job_title
     
-class ClockIn(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    clocked_in = models.DateTimeField(auto_now_add=True)
-    clocked_out = models.DateTimeField(null=True, blank=True)
-    worked_hours = models.DurationField(null=True, blank=True)
 
-    def clock_out(self):
-        if not self.clocked_out:
-            self.clocked_out = timezone.now()
-            self.worked_hours = self.clocked_out - self.clocked_in
-            self.save()
-    
-    def __str__(self):
-        return f"{self.user.username} - {self.clocked_in} to {self.clocked_out}"
