@@ -20,7 +20,7 @@
                 <td>{{ jobdone.job_title }}</td>
                 <td>{{ jobdone.job_done_in_hours }}</td>
                 <td>{{ jobdone.date_created }}</td>
-                {% comment %} <td><a class="btn btn-success btn-sm" href="{% url 'single-job' jobdone.id %}"> Click Here!<i class="fa fa-eye" aria-hidden="true"></i></a></td> {% endcomment %}
+                <td><a class="btn btn-success btn-sm" href="{% url 'single-job' jobdone.id %}"> view<i class="fa fa-eye" aria-hidden="true"></i></a></td>
             </tr>
             {% endfor %}
         </tbody>
