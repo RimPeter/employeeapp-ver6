@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import JobsDone
+from .models import JobsDone, Employee, ClockIn
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.forms.widgets import PasswordInput, TextInput
@@ -39,5 +39,16 @@ class JobsDoneForm(forms.ModelForm):
     class Meta:
         model = JobsDone
         fields = ['job_title', 'job_done_in_hours']
+  
+  
+  
         
+class ClockInForm(forms.ModelForm):
+    class Meta:
+        model = ClockIn
+        fields = ['employee']
 
+class ClockOutForm(forms.ModelForm):
+    class Meta:
+        model = ClockIn
+        fields = ['employee']

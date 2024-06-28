@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
-from .forms import LoginForm, CustomUserCreationForm, JobsDoneForm, UpdateJobForm
+from django.contrib.admin.views.decorators import staff_member_required
+from .forms import LoginForm, CustomUserCreationForm, JobsDoneForm, UpdateJobForm, ClockInForm, ClockOutForm
 from .models import JobsDone, ClockIn
 
 
@@ -88,26 +89,30 @@ def delete_job(request, pk):
     messages.info(request, 'Job Deleted')
     return redirect('dashboard')
 
-@login_required
+
+
+@staff_member_required
 def clock_in_view(request):
     if request.method == 'POST':
-        # Create a new ClockIn record for the current user
-        ClockIn.objects.create(worker=request.user, clock_in_time=timezone.now())
-        return redirect('dashboard')  # Redirect to the dashboard or another relevant page
-    return render(request, 'employeeapp/index.html')
+        form = ClockInForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('admin:index')
+    else:
+        form = ClockInForm()
+    return render(request, 'clock_in.html', {'form': form})
 
-
-@login_required
-def clock_out_view(request, clockin_id):
-    # Get the specific ClockIn record by ID
-    clockin_record = get_object_or_404(ClockIn, id=clockin_id)
-    # Update the clock_out_time and save
-    clockin_record.clock_out()
-    return redirect('dashboard')  # Redirect to the dashboard or another relevant page
-
-@login_required
-def clock_in(request):
+@staff_member_required
+def clock_out_view(request):
     if request.method == 'POST':
-        ClockIn.objects.create(worker=request.user)
-        return redirect('dashboard')
-    return render(request, 'employeeapp/clock-in.html')
+        form = ClockOutForm(request.POST)
+        if form.is_valid():
+            employee = form.cleaned_data['employee']
+            clock_in_instance = ClockIn.objects.filter(employee=employee, clock_out_time__isnull=True).first()
+            if clock_in_instance:
+                clock_in_instance.clock_out_time = timezone.now()
+                clock_in_instance.save()
+                return redirect('admin:index')
+    else:
+        form = ClockOutForm()
+    return render(request, 'clock_out.html', {'form': form})

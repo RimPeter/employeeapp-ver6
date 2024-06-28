@@ -1,16 +1,15 @@
 from django.contrib import admin
-from .models import JobsDone, ClockIn
+from .models import JobsDone, Employee, ClockIn
 
 admin.site.register(JobsDone)
 
+@admin.register(Employee)
+class EmployeeAdmin(admin.ModelAdmin):
+    pass
 
+@admin.register(ClockIn)
 class ClockInAdmin(admin.ModelAdmin):
-    list_display = ('worker', 'clock_in_time', 'clock_out_time')
-    readonly_fields = ('clock_in_time', 'clock_out_time')
-    search_fields = ('worker__username',)
-    list_filter = ('clock_in_time', 'clock_out_time')
-
-admin.site.register(ClockIn, ClockInAdmin)
+    list_display = ['employee', 'clock_in_time', 'clock_out_time']
 
 
 
