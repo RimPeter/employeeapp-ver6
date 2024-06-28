@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import LoginForm, CustomUserCreationForm
+from .forms import LoginForm, CustomUserCreationForm, JobsDoneForm
 from django.contrib.auth import authenticate
 from employeeapp.forms import LoginForm
 from django.contrib.auth.models import auth
