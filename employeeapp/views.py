@@ -6,6 +6,8 @@ from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
 from .models import JobsDone
 from django.contrib import messages
+from django.utils import timezone
+from .models import TimeLog
 
 def home(request):
     return render(request, 'employeeapp/index.html')
@@ -100,4 +102,21 @@ def delete_job(request, pk):
     messages.info(request, 'Job Deleted')
     return redirect('dashboard')
 
+@login_required(login_url='login')
+def clock_in(request):
+    if request.method == 'POST':
+        TimeLog.objects.create(user=request.user, clock_in_time=timezone.now())
+        return redirect('index')
+    return render(request, 'employeeapp/index.html')
 
+@login_required(login_url='login')
+def clock_out(request):
+    if request.method == 'POST':
+        try:
+            time_log = TimeLog.objects.filter(user=request.user, clock_out_time__isnull=True).latest('clock_in_time')
+            time_log.clock_out_time = timezone.now()
+            time_log.save()
+        except TimeLog.DoesNotExist:
+            pass  
+        return redirect('index')
+    return render(request, 'employeeapp/index.html')

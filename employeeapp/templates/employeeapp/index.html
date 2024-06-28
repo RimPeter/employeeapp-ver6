@@ -1,5 +1,15 @@
-{% extends "employeeapp/base.html" %}
+{% extends 'employeeapp/base.html' %}
 
 {% block content %}
-    <h2>Index</h2>
+<div class="container">
+    <h1>Welcome, {{ user.username }}</h1>
+    <form method="POST" action="{% url 'clock-in' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Clock In</button>
+    </form>
+    <form method="POST" action="{% url 'clock-out' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Clock Out</button>
+    </form>
+</div>
 {% endblock %}
