@@ -41,12 +41,25 @@ a.btn {
     margin: 5px 0;
 }
 
-a.btn-success {
+a.btn-success, .report {
     background-color: #28a745;
 }
 
-a.btn-success:hover {
+.createbtn {
+    color: #fff;
     background-color: #218838;
+}
+
+a.btn-success:hover, .report:hover {
+    background-color: #218838;
+}
+
+.frame {
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
@@ -63,4 +76,8 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+#id_job_done_in_hours {
+    width: 50px;
 }

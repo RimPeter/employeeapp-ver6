@@ -2,9 +2,11 @@
 
 {% block content %}
         <p>Welcome, {{ user.username }}</p>
-    <table>
+        <h2>Job-Done History</h2>
+    <table class="frame">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Worker</th>
                 <th>Job Title</th>
                 <th>Job Done in Hours</th>
@@ -26,11 +28,12 @@
         </tbody>
     </table>
 
-<h2>Clock In History</h2>
+<h2>Clock-In History</h2>
 
-<table>
+<table class="frame">
   <thead>
     <tr>
+        <th>ID</th>
       <th>Worker</th>
       <th>Clock In Time</th>
       <th>Clock Out Time</th>
@@ -48,5 +51,5 @@
   </tbody>
 </table>
 
-    <a href="{% url 'logout' %}">Logout</a>
+    <a href="{% url 'logout' %}" class="btn btn-success btn-sm">Logout</a>
 {% endblock %}
