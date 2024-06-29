@@ -100,7 +100,7 @@ def clock_in_view(request):
             return redirect('admin:index')
     else:
         form = ClockInForm()
-    return render(request, 'clock_in.html', {'form': form})
+    return render(request, 'employeeapp/clockin.html', {'form': form})
 
 @login_required(login_url='login')
 @staff_member_required
@@ -116,4 +116,4 @@ def clock_out_view(request):
                 return redirect('admin:index')
     else:
         form = ClockOutForm()
-    return render(request, 'clock_out.html', {'form': form})
+    return render(request, 'employeeapp/clockout.html', {'form': form})
