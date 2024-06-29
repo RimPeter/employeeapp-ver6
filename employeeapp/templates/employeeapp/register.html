@@ -1,10 +1,52 @@
 {% extends "employeeapp/base.html" %}
 {% block content %}
-    <h2>Register</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
-    <a href="{% url 'login' %}">Login</a>
+
+    <body>
+
+        <div class="container bg-light shadow-md p-5 form-layout">
+
+            <h3> Create your account </h3>
+
+            <h5> Start managing your job today! </h5>
+
+            <hr>
+            <br>
+
+            <form method="POST" autocomplete="off">
+
+                {% csrf_token %}
+<p>username</p>
+                {{form.username}}
+
+                <br>
+<p>password</p>
+                {{form.password1}}
+
+                <br>
+<p>repeat password</p>
+                {{form.password2}}
+
+                <br>
+
+                <button type="submit" class="btn btn-primary w-100 btn-block p-2"> Create account &nbsp; <i class="fa fa-user" aria-hidden="true"></i> </button>
+
+
+            </form>
+
+            <br>
+
+            <div class="text-center">
+
+                <p> Have an account? </p> <a href="{% url 'login' %}"> Login </a>
+
+            </div>
+
+
+        </div>
+
+        <br>
+
+    </body>
+
+
 {% endblock %}

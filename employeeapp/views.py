@@ -90,7 +90,7 @@ def delete_job(request, pk):
     return redirect('dashboard')
 
 
-
+@login_required(login_url='login')
 @staff_member_required
 def clock_in_view(request):
     if request.method == 'POST':
@@ -102,6 +102,7 @@ def clock_in_view(request):
         form = ClockInForm()
     return render(request, 'clock_in.html', {'form': form})
 
+@login_required(login_url='login')
 @staff_member_required
 def clock_out_view(request):
     if request.method == 'POST':
