@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 class JobsDone(models.Model):
+    
     JOB_DESCRIPTIONS = [
         ('painting', 'Painting'),
         ('drywall_installation', 'Drywall Installation'),

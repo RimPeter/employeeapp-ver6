@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import JobsDone, Employee, ClockIn
+from .models import JobsDone, ClockIn, Employee
 
 admin.site.register(JobsDone)
 
@@ -10,6 +10,8 @@ class EmployeeAdmin(admin.ModelAdmin):
 @admin.register(ClockIn)
 class ClockInAdmin(admin.ModelAdmin):
     list_display = ['employee', 'clock_in_time', 'clock_out_time']
+    
+
 
 
 
