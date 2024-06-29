@@ -34,11 +34,17 @@
       <th>Worker</th>
       <th>Clock In Time</th>
       <th>Clock Out Time</th>
-      <th>Action</th>
     </tr>
   </thead>
     <tbody>
-        
+        {% for entry in clock_in_list %}
+        <tr>
+            <td>{{ entry.id }}</td>
+            <td>{{ entry.employee }}</td>
+            <td>{{ entry.clock_in_time }}</td>
+            <td>{{ entry.clock_out_time }}</td>
+        </tr>
+        {% endfor %}
   </tbody>
 </table>
 

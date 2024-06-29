@@ -117,3 +117,16 @@ def clock_out_view(request):
     else:
         form = ClockOutForm()
     return render(request, 'employeeapp/clockout.html', {'form': form})
+
+# @login_required(login_url='login')
+# @staff_member_required
+# def clock_in_list(request):
+#     clock_in_list = ClockIn.objects.all()
+#     context = {'clock_in_list': clock_in_list}
+#     return render(request, 'employeeapp/clockin.html', context=context)
+
+@login_required(login_url='login')
+def clockin_list(request):
+    clock_in_list = ClockIn.objects.all()
+    context = {'clock_in_list': clock_in_list}
+    return render(request, 'employeeapp/dashboard.html', context=context)
