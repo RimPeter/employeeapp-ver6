@@ -30,10 +30,22 @@ class JobsDone(models.Model):
     
 
 class Employee(models.Model):
-    name = models.CharField(max_length=100)
-
+    select_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    firstname = models.CharField(max_length=50)
+    lastname = models.CharField(max_length=50)
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=15)
+    address = models.CharField(max_length=100)
+    city = models.CharField(max_length=50)
+    postcode = models.CharField(max_length=10)
+    
     def __str__(self):
-        return self.name
+        return self.firstname + ' ' + self.lastname
+    
+    # name = models.CharField(max_length=100)
+
+    # def __str__(self):
+    #     return self.name
 
 class ClockIn(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
@@ -41,4 +53,4 @@ class ClockIn(models.Model):
     clock_out_time = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.employee.name} - {self.clock_in_time} - {self.clock_out_time}"
+        return f"{Employee} - {self.clock_in_time} - {self.clock_out_time}"
