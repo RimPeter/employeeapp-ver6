@@ -7,45 +7,12 @@
     <p>Welcome, {{ user.username }}</p>
     <form method="post">
     {% csrf_token %}
-    <form action="{% url 'dashboard' %}" method="get">
+    <form action="{% url 'clockin' %}" method="get">
     <button type="submit">Clock-in</button>
 </form>
 
-</form>
-    
-    <table>
-        <thead>
-            <tr>
-                <th>Worker</th>
-                <th>Clock In Time</th>
-                <th>Clock Out Time</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-           {% if clockins %}
 
-            {% for clockin in clockins %}
-
-            <tr>
-
-                <td> {{clockin.worker}} </td>
-
-                <td> {{clockin.clock_in_time}}   </td>
-
-                <td> {{clockin.clock_out_time}} </td>
-
-             
-
-                <td> <a class="btn btn-success btn-sm" href="{% url 'clockin' clockin.id %}"> Click Here!<i class="fa fa-eye" aria-hidden="true"></i> </a> </td>
-
-            </tr>
-
-            {% endfor %}
-        
-        {% endif %}
-        </tbody>
-    </table>
+  
     <a href="{% url 'logout' %}">Logout</a>
        
 {% endblock %}
