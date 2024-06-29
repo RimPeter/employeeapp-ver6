@@ -37,7 +37,8 @@ class Employee(models.Model):
         return self.name
 
 class ClockIn(models.Model):
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    #employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    employee = models.ForeignKey(User, on_delete=models.PROTECT)
     clock_in_time = models.DateTimeField(default=timezone.now)
     clock_out_time = models.DateTimeField(null=True, blank=True)
 

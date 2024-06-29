@@ -7,7 +7,7 @@
     <p>Welcome, {{ user.username }}</p>
     <form method="post">
     {% csrf_token %}
-    <form action="{% url 'clock_in' %}" method="get">
+    <form action="{% url 'dashboard' %}" method="get">
     <button type="submit">Clock-in</button>
 </form>
 
