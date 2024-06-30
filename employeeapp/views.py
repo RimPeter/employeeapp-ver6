@@ -12,6 +12,9 @@ from .models import JobsDone, ClockIn
 def home(request):
     return render(request, 'employeeapp/index.html')
 
+def navbar2(request):
+    return render(request, 'employeeapp/navbar2.html')
+
 def register(request):
     form = CustomUserCreationForm()
     if request.method == 'POST':
