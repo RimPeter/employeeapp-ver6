@@ -1,18 +1,17 @@
 {% extends 'employeeapp/base.html' %}
 
 {% block content %}
-#create clockin form
 
 
-    <p>Welcome, {{ user.username }}</p>
+    <h2>Welcome, {{ user.username }}</h2>
     <form method="post">
     {% csrf_token %}
     <form action="{% url 'clockin' %}" method="get">
-    <button type="submit">Clock-in</button>
+    <a href="{% url 'clockin' %}" class="btn btn-success btn-sm">Go to clock in &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i></a>
 </form>
 
 
   
-    <a href="{% url 'logout' %}">Logout</a>
+    <a href="{% url 'logout' %}" class="btn btn-success btn-sm">Logout &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i></a>
        
 {% endblock %}
