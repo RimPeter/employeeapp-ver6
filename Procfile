@@ -1,1 +1,1 @@
-web: gunicorn clockin.wsgi
+web: gunicorn clockin.wsgi --log-file -
