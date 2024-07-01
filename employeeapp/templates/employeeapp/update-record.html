@@ -1,69 +1,51 @@
-{% extends 'employeeapp/base.html' %}
-
-{% block content %}
+{% extends 'employeeapp/base.html' %} {% block content %}
 
 <body>
+  <div class="container bg-light shadow-md p-5 form-layout text-center">
+    <h3>Update Record</h3>
 
-    <div class="container bg-light shadow-md p-5 form-layout">
+    <h6>Update your record down below.</h6>
 
-        <h3> Update record </h3>
+    <hr />
+    <br />
 
-        <h6> Update your record down below. </h6>
+    <form method="POST" autocomplete="off">
+      {% csrf_token %} {{form.worker}}
 
-        <hr>
-        <br>
+      <br />
 
-        <form method="POST" autocomplete="off">
+      {{form.related_name}}
+      <div class="flex-container">
+        <div>{{form.job_title}}</div>
+        <div>{{form.job_done_in_hours}}</div>
+      </div>
 
-            {% csrf_token %}
+      <br />
 
-            {{form.worker}}
+      
 
-            <br>
+      <br />
 
-            {{form.related_name}}
+      {{form.date_created}}
 
-            <br>
+      <br />
 
-            {{form.job_title}}
+      <br />
 
-            <br>
+      <button type="submit" class="btn btn-info update">
+        Update record &nbsp; <i class="fa fa-plus" aria-hidden="true"></i>
+      </button>
 
-            {{form.job_done_in_hours}}
+      &nbsp;
+    </form>
+  </div>
+  <div>
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary update">
+      Return &nbsp; <i class="" aria-hidden="true"></i>
+    </a>
+  </div>
 
-            <br>
-
-            {{form.date_created}}
-
-            <br>
-
-
-
-            <br>
-
-            <button type="submit" class="btn btn-info"> 
-                
-                Update record &nbsp; <i class="fa fa-plus" aria-hidden="true"></i>
-            
-            </button>
-
-            &nbsp; 
-            
-            <a href="{% url 'dashboard' %}" class="btn btn-secondary"> 
-
-
-                Return &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i>
-
-            </a>
-
-
-        </form>
-
-    </div>
-
-    <br>
-
+  <br />
 </body>
-
 
 {% endblock %}

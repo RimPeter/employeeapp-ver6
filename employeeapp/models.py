@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 class JobsDone(models.Model):
+    
     JOB_DESCRIPTIONS = [
         ('painting', 'Painting'),
         ('drywall_installation', 'Drywall Installation'),
@@ -31,14 +32,12 @@ class JobsDone(models.Model):
 
 class Employee(models.Model):
     name = models.CharField(max_length=100)
-    # Add other fields as necessary
 
     def __str__(self):
         return self.name
 
 class ClockIn(models.Model):
-    #employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    employee = models.ForeignKey(User, on_delete=models.PROTECT)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     clock_in_time = models.DateTimeField(default=timezone.now)
     clock_out_time = models.DateTimeField(null=True, blank=True)
 

@@ -6,11 +6,14 @@ from django.contrib import messages
 from django.utils import timezone
 from django.contrib.admin.views.decorators import staff_member_required
 from .forms import LoginForm, CustomUserCreationForm, JobsDoneForm, UpdateJobForm, ClockInForm, ClockOutForm
-from .models import JobsDone, ClockIn
+from .models import JobsDone, ClockIn, Employee
 
 
 def home(request):
     return render(request, 'employeeapp/index.html')
+
+def navbar2(request):
+    return render(request, 'employeeapp/navbar2.html')
 
 def register(request):
     form = CustomUserCreationForm()
@@ -18,6 +21,7 @@ def register(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Account has been created successfully!")
             return redirect('login')
     context = {'form': form}
     return render(request, 'employeeapp/register.html', context=context)
@@ -40,6 +44,7 @@ def login(request):
 
 def logout(request):
     auth.logout(request)
+    messages.success(request, "Logout successful!")
     return redirect('login')
 
 @login_required(login_url='login')
@@ -56,6 +61,7 @@ def add_job(request):
             job = form.save(commit=False)
             job.worker = request.user
             job.save()
+            messages.success(request, "Your job-record has been created!")
             return redirect('dashboard')
     else:
         form = JobsDoneForm()
@@ -71,6 +77,7 @@ def update_job(request, pk):
         form = UpdateJobForm(request.POST, instance=job)
         if form.is_valid():
             form.save()
+            messages.success(request, "Your job-record has been updated!")
             return redirect('dashboard')
     context = {'form': form}
     return render(request, 'employeeapp/update-record.html', context=context)
@@ -86,24 +93,25 @@ def single_job(request, pk):
 def delete_job(request, pk):
     job = JobsDone.objects.get(id=pk)
     job.delete()
-    messages.info(request, 'Job Deleted')
+    messages.info(request, 'Job has been deleted!')
     return redirect('dashboard')
 
 
 @login_required(login_url='login')
-@staff_member_required
+#@staff_member_required
 def clock_in_view(request):
     if request.method == 'POST':
         form = ClockInForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.info(request, 'Clock-in successful!')
             return redirect('admin:index')
     else:
         form = ClockInForm()
-    return render(request, 'clock_in.html', {'form': form})
+    return render(request, 'employeeapp/clockin.html', {'form': form})
 
 @login_required(login_url='login')
-@staff_member_required
+#@staff_member_required
 def clock_out_view(request):
     if request.method == 'POST':
         form = ClockOutForm(request.POST)
@@ -113,7 +121,29 @@ def clock_out_view(request):
             if clock_in_instance:
                 clock_in_instance.clock_out_time = timezone.now()
                 clock_in_instance.save()
+                messages.info(request, 'Clock-out successful!')
                 return redirect('admin:index')
     else:
         form = ClockOutForm()
-    return render(request, 'clock_out.html', {'form': form})
+    return render(request, 'employeeapp/clockout.html', {'form': form})
+
+# @login_required(login_url='login')
+# @staff_member_required
+# def clock_in_list(request):
+#     clock_in_list = ClockIn.objects.all()
+#     context = {'clock_in_list': clock_in_list}
+#     return render(request, 'employeeapp/clockin.html', context=context)
+
+@login_required(login_url='login')
+def clockin_list(request):
+    context = ClockIn.objects.all()
+    return render(request, 'employeeapp/dashboard.html', context=context)
+
+def employee_clockin_view(request):
+    employees = Employee.objects.all()
+    clockins = ClockIn.objects.select_related('employee').all()
+    context = {
+        'employees': employees,
+        'clockins': clockins,
+    }
+    return render(request, 'employeeapp/dashboard.html', context)

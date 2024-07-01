@@ -1,16 +1,16 @@
 {% extends 'employeeapp/base.html' %}
 
 {% block content %}
-<div class="container bg-light shadow-md p-5 form-layout">
+<div class="container bg-light shadow-md p-5 form-layout frame">
     <h3>Create New Record</h3>
     <h6>Fill in the details below to create a new job record.</h6>
     <hr>
     <form method="POST" autocomplete="off">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="submit" class="btn btn-success btn-sm createbtn">Create</button>
     </form>
     <br>
-    <a href="{% url 'dashboard' %}" class="btn btn-secondary">Return to Dashboard &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+    <a href="{% url 'dashboard' %}" class="btn btn-success btn-sm">Return to Dashboard &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i></a>
 </div>
 {% endblock %}
