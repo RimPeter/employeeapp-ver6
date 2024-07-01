@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.utils import timezone
 from django.contrib.admin.views.decorators import staff_member_required
 from .forms import LoginForm, CustomUserCreationForm, JobsDoneForm, UpdateJobForm, ClockInForm, ClockOutForm
-from .models import JobsDone, ClockIn
+from .models import JobsDone, ClockIn, Employee
 
 
 def home(request):
@@ -136,6 +136,14 @@ def clock_out_view(request):
 
 @login_required(login_url='login')
 def clockin_list(request):
-    clock_in_list = ClockIn.objects.all()
-    context = {'clock_in_list': clock_in_list}
+    context = ClockIn.objects.all()
     return render(request, 'employeeapp/dashboard.html', context=context)
+
+def employee_clockin_view(request):
+    employees = Employee.objects.all()
+    clockins = ClockIn.objects.select_related('employee').all()
+    context = {
+        'employees': employees,
+        'clockins': clockins,
+    }
+    return render(request, 'employeeapp/dashboard.html', context)

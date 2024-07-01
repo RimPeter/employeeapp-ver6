@@ -40,12 +40,13 @@
     </tr>
   </thead>
     <tbody>
-        {% for entry in clock_in_list %}
+                {% for clockin in clockins %}
+
         <tr>
-            <td>{{ entry.id }}</td>
-            <td>{{ entry.employee }}</td>
-            <td>{{ entry.clock_in_time }}</td>
-            <td>{{ entry.clock_out_time }}</td>
+            <td>{{ clockin.id }}</td>
+            <td>{{ clockin.employee }}</td>
+            <td>{{ clockin.clock_in_time }}</td>
+            <td>{{ clockin.clock_out_time }}</td>
         </tr>
         {% endfor %}
   </tbody>
