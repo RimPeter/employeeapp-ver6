@@ -1,3 +1,12 @@
+"""
+Module Overview.
+
+This module contains view functions for handling
+various operations in the Employee App,
+including user registration, login, logout, job record management,
+and employee clock-in and clock-out functionalities.
+"""
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import auth

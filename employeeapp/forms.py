@@ -1,3 +1,11 @@
+"""
+Module Overview.
+
+This module contains custom form classes for user creation,
+user login, job record management, and employee clock-in and
+clock-out functionalities within a Django application.
+"""
+
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import JobsDone, ClockIn

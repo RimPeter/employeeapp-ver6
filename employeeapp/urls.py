@@ -1,3 +1,13 @@
+"""
+Module Overview.
+
+This module defines URL patterns for routing HTTP requests to
+appropriate view functions within the Employee App. It imports
+necessary modules and view functions to handle various functionalities
+such as user registration, login, job management,
+and employee clock-in and clock-out.
+"""
+
 from django.urls import path
 from . import views
 from .views import clock_in_view, clock_out_view
