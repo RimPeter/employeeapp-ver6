@@ -28,8 +28,9 @@ The Employee App is a simple Django application that manages employee clock-in a
 
 ## Testing
 UI has been tested manually, no unittesting involved.
+During manual testing there was no bug found.
 ### CSS Checker:
-![](README-images/.png)
+![css-validator](README-images/css-validator.png)
 ### PEP8 Checker:
 ![forms-pep8](README-images/forms-pep8.png)
 ![url-pep8](README-images/url-pep8.png)
