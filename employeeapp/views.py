@@ -12,8 +12,8 @@ from .models import JobsDone, ClockIn, Employee
 def home(request):
     return render(request, 'employeeapp/index.html')
 
-def navbar2(request):
-    return render(request, 'employeeapp/navbar2.html')
+# def navbar2(request):
+#     return render(request, 'employeeapp/navbar2.html')
 
 def register(request):
     form = CustomUserCreationForm()
@@ -52,6 +52,18 @@ def dashboard(request):
     job_done = JobsDone.objects.all()
     context = {'job_done': job_done}
     return render(request, 'employeeapp/dashboard.html', context=context)
+
+@login_required(login_url='login')
+def dashboard_view(request):
+    job_done = JobDone.objects.all()
+    employees = Employee.objects.all()
+    clockins = ClockIn.objects.select_related('employee').all()
+    context = {
+        'job_done': job_done,
+        'employees': employees,
+        'clockins': clockins,
+    }
+    return render(request, 'employeeapp/dashboard.html', context)
 
 @login_required(login_url='login')
 def add_job(request):
@@ -134,11 +146,12 @@ def clock_out_view(request):
 #     context = {'clock_in_list': clock_in_list}
 #     return render(request, 'employeeapp/clockin.html', context=context)
 
-@login_required(login_url='login')
-def clockin_list(request):
-    context = ClockIn.objects.all()
-    return render(request, 'employeeapp/dashboard.html', context=context)
+# @login_required(login_url='login')
+# def clockin_list(request):
+#     context = ClockIn.objects.all()
+#     return render(request, 'employeeapp/dashboard.html', context=context)
 
+@login_required(login_url='login')
 def employee_clockin_view(request):
     employees = Employee.objects.all()
     clockins = ClockIn.objects.select_related('employee').all()
@@ -146,4 +159,4 @@ def employee_clockin_view(request):
         'employees': employees,
         'clockins': clockins,
     }
-    return render(request, 'employeeapp/dashboard.html', context)
+    return render(request, 'employeeapp/employee_clockin.html', context)
