@@ -2,7 +2,20 @@
 
 ## Overview
 
-The Employee App is a simple Django application that manages employee clock-in and clock-out times. It includes a web interface for employees to clock in and out, as well as an admin interface to manage employee data and view clock-in records.
+The Employee App is a simple Django application that manages employee clock-in and clock-out times. It includes a web interface for employee to show clock in and out times, as well as an admin interface to manage employee data and view clock-in records.
+
+## Screenshots
+### Large screen view:
+![clockin-history](README-images/clockin-history.png)
+![create-record](README-images/create-record.png)
+![job-history](README-images/job-history.png)
+![login](README-images/login.png)
+![update-record](README-images/update-record.png)
+![view-record](README-images/view-record.png)
+![welcome-page](README-images/welcome-page.png)
+
+### mobile view:
+![create-record-mobile-navbar-open](README-images/create-record-mobile-navbar-open.png) ![create-record-mobile](README-images/create-record-mobile.png)
 
 ## Directory Structure
 
@@ -12,6 +25,24 @@ The Employee App is a simple Django application that manages employee clock-in a
 - `requirements.txt`: Lists the dependencies required for the project.
 - `Procfile`: Configuration for deploying the app to Heroku or similar platforms.
 - `clockin/`: Directory for clock-in related features and templates.
+
+## Testing
+UI has been tested manually, no unittesting involved.
+### CSS Checker:
+![](README-images/.png)
+### PEP8 Checker:
+![forms-pep8](README-images/forms-pep8.png)
+![url-pep8](README-images/url-pep8.png)
+![views-pep8](README-images/views-pep8.png)
+
+## Sources
+- [Image Color Picker](https://imagecolorpicker.com/): Used for selecting a harmonious color palette. 
+- [GPT-4](https://chat.openai.com/?model=gpt-4): Utilized for generating images, texts, and providing explanations of elements.
+- [Google](www.google.com): Employed for image research.
+- [YouTube](www.youtube.com):multiple tutorials
+
+
+
 
 ## Setup Instructions
 
@@ -104,6 +135,8 @@ The Employee App is a simple Django application that manages employee clock-in a
 4. Push to the branch: `git push origin feature/your-feature-name`.
 5. Open a pull request.
 
-## License
+## Contact Information
+For further inquiries or feedback, please contact:
 
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
+Peter Rimaszecsi
+Email: rim.peter@hotmail.com
