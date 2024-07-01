@@ -5,14 +5,18 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
 from django.contrib.admin.views.decorators import staff_member_required
-from .forms import LoginForm, CustomUserCreationForm, JobsDoneForm, UpdateJobForm, ClockInForm, ClockOutForm
+from .forms import UpdateJobForm, ClockInForm, ClockOutForm
+from .forms import LoginForm, CustomUserCreationForm, JobsDoneForm
 from .models import JobsDone, ClockIn, Employee
 
 
 def home(request):
+    """Render the home page."""
     return render(request, 'employeeapp/index.html')
 
+
 def register(request):
+    """Handle user registration."""
     form = CustomUserCreationForm()
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -23,36 +27,44 @@ def register(request):
     context = {'form': form}
     return render(request, 'employeeapp/register.html', context=context)
 
+
 def login(request):
+    """Handle user login."""
     form = LoginForm()
-    
+
     if request.method == 'POST':
         form = LoginForm(data=request.POST)
         if form.is_valid():
             username = request.POST.get('username')
             password = request.POST.get('password')
-            user = authenticate(request, username=username, password=password)  
-            
+            user = authenticate(request, username=username, password=password)
+
             if user is not None:
                 auth.login(request, user)
                 return redirect('dashboard')
     context = {'form': form}
-    return render(request, 'employeeapp/login.html', context=context) 
+    return render(request, 'employeeapp/login.html', context=context)
+
 
 def logout(request):
+    """Handle user logout."""
     auth.logout(request)
     messages.success(request, "Logout successful!")
     return redirect('login')
 
+
 @login_required(login_url='login')
 def dashboard(request):
+    """Render the dashboard page with job records."""
     job_done = JobsDone.objects.all()
     context = {'job_done': job_done}
     return render(request, 'employeeapp/dashboard.html', context=context)
 
+
 @login_required(login_url='login')
 def dashboard_view(request):
-    job_done = JobDone.objects.all()
+    """Render the dashboard page with job records, employees, and clock-ins."""
+    job_done = JobsDone.objects.all()
     employees = Employee.objects.all()
     clockins = ClockIn.objects.select_related('employee').all()
     context = {
@@ -62,8 +74,10 @@ def dashboard_view(request):
     }
     return render(request, 'employeeapp/dashboard.html', context)
 
+
 @login_required(login_url='login')
 def add_job(request):
+    """Handle adding a new job record."""
     if request.method == 'POST':
         form = JobsDoneForm(request.POST)
         if form.is_valid():
@@ -80,6 +94,7 @@ def add_job(request):
 
 @login_required(login_url='login')
 def update_job(request, pk):
+    """Handle updating an existing job record."""
     job = JobsDone.objects.get(id=pk)
     form = UpdateJobForm(instance=job)
     if request.method == 'POST':
@@ -91,8 +106,10 @@ def update_job(request, pk):
     context = {'form': form}
     return render(request, 'employeeapp/update-record.html', context=context)
 
+
 @login_required(login_url='login')
 def single_job(request, pk):
+    """Display a single job record."""
     jobdone = JobsDone.objects.get(id=pk)
     context = {'jobdone': jobdone}
     return render(request, 'employeeapp/view-record.html', context=context)
@@ -100,6 +117,7 @@ def single_job(request, pk):
 
 @login_required(login_url='login')
 def delete_job(request, pk):
+    """Handle deleting a job record."""
     job = JobsDone.objects.get(id=pk)
     job.delete()
     messages.info(request, 'Job has been deleted!')
@@ -109,6 +127,7 @@ def delete_job(request, pk):
 @login_required(login_url='login')
 @staff_member_required
 def clock_in_view(request):
+    """Handle clocking in of employees."""
     if request.method == 'POST':
         form = ClockInForm(request.POST)
         if form.is_valid():
@@ -119,14 +138,17 @@ def clock_in_view(request):
         form = ClockInForm()
     return render(request, 'employeeapp/clockin.html', {'form': form})
 
+
 @login_required(login_url='login')
 @staff_member_required
 def clock_out_view(request):
+    """Handle clocking out of employees."""
     if request.method == 'POST':
         form = ClockOutForm(request.POST)
         if form.is_valid():
             employee = form.cleaned_data['employee']
-            clock_in_instance = ClockIn.objects.filter(employee=employee, clock_out_time__isnull=True).first()
+            clock_in_instance = ClockIn.objects.filter(
+                employee=employee, clock_out_time__isnull=True).first()
             if clock_in_instance:
                 clock_in_instance.clock_out_time = timezone.now()
                 clock_in_instance.save()
@@ -136,8 +158,10 @@ def clock_out_view(request):
         form = ClockOutForm()
     return render(request, 'employeeapp/clockout.html', {'form': form})
 
+
 @login_required(login_url='login')
 def employee_clockin_view(request):
+    """Display clock-in records of all employees."""
     employees = Employee.objects.all()
     clockins = ClockIn.objects.select_related('employee').all()
     context = {
