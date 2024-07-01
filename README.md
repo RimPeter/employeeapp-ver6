@@ -32,8 +32,11 @@ During manual testing there was no bug found.
 ### CSS Checker:
 ![css-validator](README-images/css-validator.png)
 ### PEP8 Checker:
+####forms.py:
 ![forms-pep8](README-images/forms-pep8.png)
+####urls.py:
 ![url-pep8](README-images/url-pep8.png)
+####views.py
 ![views-pep8](README-images/views-pep8.png)
 
 ## Sources
