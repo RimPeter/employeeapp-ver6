@@ -36,7 +36,7 @@ During manual testing there was no bug found.
 ![forms-pep8](README-images/forms-pep8.png)
 #### urls.py:
 ![url-pep8](README-images/url-pep8.png)
-#### views.py
+#### views.py:
 ![views-pep8](README-images/views-pep8.png)
 
 ## Sources
