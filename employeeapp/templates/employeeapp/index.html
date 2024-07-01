@@ -3,22 +3,17 @@
     <h2>Welcome, {{ user.username }}</h2>
 </div>
 <div class="flex-container">
-
-    
-    <hr>
+ 
+  <hr>
 <form method="post">
   {% csrf_token %}
   <form action="{% url 'clockin' %}" method="get">
     <a href="{% url 'clockin' %}" class="btn btn-success btn-sm"
-      >Go to clock in &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i
-    ></a>
+      >Go to clock in &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i></a>
   </form>
-</div>
-
+  </div>
 
   <a href="{% url 'logout' %}" class="btn btn-success btn-sm"
-    >Logout &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i
-  ></a>
-
+    >Logout &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i></a>
   {% endblock %}
 </form>

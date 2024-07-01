@@ -22,13 +22,17 @@
                 <td>{{ jobdone.job_title }}</td>
                 <td>{{ jobdone.job_done_in_hours }}</td>
                 <td>{{ jobdone.date_created }}</td>
-                <td><a class="btn btn-success btn-sm" href="{% url 'single-job' jobdone.id %}"> view<i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                <td>
+                    <a class="btn btn-success btn-sm" href="{% url 'single-job' jobdone.id %}">
+                        view
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </a></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    {% include 'employeeapp/employee-clockin.html' %}
+
 
 {% endblock %}
 

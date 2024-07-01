@@ -12,9 +12,6 @@ from .models import JobsDone, ClockIn, Employee
 def home(request):
     return render(request, 'employeeapp/index.html')
 
-# def navbar2(request):
-#     return render(request, 'employeeapp/navbar2.html')
-
 def register(request):
     form = CustomUserCreationForm()
     if request.method == 'POST':
@@ -110,7 +107,7 @@ def delete_job(request, pk):
 
 
 @login_required(login_url='login')
-#@staff_member_required
+@staff_member_required
 def clock_in_view(request):
     if request.method == 'POST':
         form = ClockInForm(request.POST)
@@ -123,7 +120,7 @@ def clock_in_view(request):
     return render(request, 'employeeapp/clockin.html', {'form': form})
 
 @login_required(login_url='login')
-#@staff_member_required
+@staff_member_required
 def clock_out_view(request):
     if request.method == 'POST':
         form = ClockOutForm(request.POST)
@@ -139,18 +136,6 @@ def clock_out_view(request):
         form = ClockOutForm()
     return render(request, 'employeeapp/clockout.html', {'form': form})
 
-# @login_required(login_url='login')
-# @staff_member_required
-# def clock_in_list(request):
-#     clock_in_list = ClockIn.objects.all()
-#     context = {'clock_in_list': clock_in_list}
-#     return render(request, 'employeeapp/clockin.html', context=context)
-
-# @login_required(login_url='login')
-# def clockin_list(request):
-#     context = ClockIn.objects.all()
-#     return render(request, 'employeeapp/dashboard.html', context=context)
-
 @login_required(login_url='login')
 def employee_clockin_view(request):
     employees = Employee.objects.all()
@@ -159,4 +144,4 @@ def employee_clockin_view(request):
         'employees': employees,
         'clockins': clockins,
     }
-    return render(request, 'employeeapp/employee_clockin.html', context)
+    return render(request, 'employeeapp/employee-clockin.html', context)

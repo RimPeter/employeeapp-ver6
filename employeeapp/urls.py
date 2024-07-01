@@ -14,8 +14,5 @@ urlpatterns = [
     path('delete-job/<str:pk>/', views.delete_job, name='delete-job'),
     path('clockin/', clock_in_view, name='clockin'),
     path('clockout/', clock_out_view, name='clockout'),
-    #path('navbar2/', views.navbar2, name='navbar2'),
-    path('employee-clockin/', views.employee_clockin_view, name='employee_clockin'),
-    #path('dashboard/', views.employee_clockin_view, name='employee_clockin'),
-    path('dashboard/', views.dashboard_view, name='dashboard'),
+    path('employee-clockin/', views.employee_clockin_view, name='employee-clockin'),
 ]
