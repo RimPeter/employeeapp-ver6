@@ -36,6 +36,10 @@ UI has been tested manually, no unittesting involved.
 ![views-pep8](README-images/views-pep8.png)
 
 ## Sources
+- [Icon Converter](https://www.icoconverter.com/):Great to make favicons
+- [Font Awesome](https://fontawesome.com/account/general):Great for free icons
+- [Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/):Bootstrap source
+- [Bootstrap](https://startbootstrap.com/):Bootstrap source
 - [Image Color Picker](https://imagecolorpicker.com/): Used for selecting a harmonious color palette. 
 - [GPT-4](https://chat.openai.com/?model=gpt-4): Utilized for generating images, texts, and providing explanations of elements.
 - [Google](www.google.com): Employed for image research.
