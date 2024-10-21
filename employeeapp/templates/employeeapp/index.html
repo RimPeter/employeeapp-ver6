@@ -7,8 +7,8 @@
   <hr>
 <form method="post">
   {% csrf_token %}
-  <form action="{% url 'clockin' %}" method="get">
-    <a href="{% url 'clockin' %}" class="btn btn-success btn-sm"
+  <form action="{% url 'employee-clockin' %}" method="get">
+    <a href="{% url 'employee-clockin' %}" class="btn btn-success btn-sm"
       >Go to clock in &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i></a>
   </form>
   </div>

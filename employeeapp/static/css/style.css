@@ -9,6 +9,13 @@
     z-index: 2;
 }
 
+.logged-in-name {
+    background-color: gray;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;;
+}
+
 .navbar-brand {
     font-size: 24px;
     font-weight: bold;

@@ -6,11 +6,21 @@
             <span class="bar"></span>
         </div>
         <ul class="navbar-menu">
-            <li class="navbar-item"><a href="{% url 'clockin' %}">Clock-in</a></li>
+            {% if user.is_authenticated %}
+            <li class="navbar-item">
+                <span class="logged-in-name">
+                   Logged in as {{ user.username }} 
+                </span>
+                </li>
+            <li class="navbar-item"><a href="{% url 'employee-clockin' %}">Clock-in</a></li>
             <li class="navbar-item"><a href="{% url 'employee-clockin' %}">Hours</a></li>
             <li class="navbar-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
             <li class="navbar-item"><a href="{% url 'add-job' %}">Add Job</a></li>
             <li class="navbar-item"><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+            <li class="navbar-item"><a href="{% url 'login' %}">Login</a></li>
+            <li class="navbar-item"><a href="{% url 'register' %}">Register</a></li>
+            {% endif %}
         </ul>
     </nav>
 
