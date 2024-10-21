@@ -1,0 +1,27 @@
+{% extends "employeeapp/base.html" %}
+
+{% block content %} 
+ 
+<h2>Clock-In History</h2>
+<table class="frame">
+  <thead>
+    <tr>
+        <th>ID</th>
+      <th>Worker</th>
+      <th>Clock In Time</th>
+      <th>Clock Out Time</th>
+    </tr>
+  </thead>
+    <tbody>
+                {% for clockin in clockins %}
+
+        <tr>
+            <td>{{ clockin.id }}</td>
+            <td>{{ clockin.employee }}</td>
+            <td>{{ clockin.clock_in_time }}</td>
+            <td>{{ clockin.clock_out_time }}</td>
+        </tr>
+        {% endfor %}
+  </tbody>
+</table>
+{% endblock %} 

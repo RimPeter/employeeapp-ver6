@@ -22,35 +22,14 @@
                 <td>{{ jobdone.job_title }}</td>
                 <td>{{ jobdone.job_done_in_hours }}</td>
                 <td>{{ jobdone.date_created }}</td>
-                <td><a class="btn btn-success btn-sm" href="{% url 'single-job' jobdone.id %}"> view<i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                <td>
+                    <a class="btn btn-success btn-sm" href="{% url 'single-job' jobdone.id %}">
+                        view
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </a></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-
-<h2>Clock-In History</h2>
-
-<table class="frame">
-  <thead>
-    <tr>
-        <th>ID</th>
-      <th>Worker</th>
-      <th>Clock In Time</th>
-      <th>Clock Out Time</th>
-    </tr>
-  </thead>
-    <tbody>
-                {% for clockin in clockins %}
-
-        <tr>
-            <td>{{ clockin.id }}</td>
-            <td>{{ clockin.employee }}</td>
-            <td>{{ clockin.clock_in_time }}</td>
-            <td>{{ clockin.clock_out_time }}</td>
-        </tr>
-        {% endfor %}
-  </tbody>
-</table>
-
-    <a href="{% url 'logout' %}" class="btn btn-success btn-sm">Logout</a>
 {% endblock %}
+
