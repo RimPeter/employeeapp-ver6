@@ -3,7 +3,8 @@
 {% block content %}
         <p>Welcome, {{ user.username }}</p>
         <h2>Job-Done History</h2>
-    <table class="frame">
+        <div class="jobhistory">
+            <table class="frame">
         <thead>
             <tr>
                 <th>ID</th>
@@ -31,5 +32,7 @@
             {% endfor %}
         </tbody>
     </table>
+        </div>
+    
 {% endblock %}
 

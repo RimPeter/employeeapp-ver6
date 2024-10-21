@@ -81,7 +81,18 @@ class ClockInForm(forms.ModelForm):
         """Specify the model and fields for the clock-in form."""
 
         model = ClockIn
-        fields = ['employee']
+        fields = []
+        
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(ClockInForm, self).__init__(*args, **kwargs)
+        if user and user.is_superuser:
+            # Superusers can select any employee
+            self.fields['employee'] = forms.ModelChoiceField(
+                queryset=User.objects.all(),
+                widget=forms.Select(attrs={'class': 'form-control'}),
+                required=True
+            )
 
 
 class ClockOutForm(forms.ModelForm):

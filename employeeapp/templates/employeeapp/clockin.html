@@ -4,7 +4,12 @@
 <h2>Clock In</h2>
 
 <form method="post">
-  {% csrf_token %} {{ form.as_p }}
+  {% csrf_token %}
+  {% if form.fields %}
+    {{ form.as_p }}
+  {% else %}
+  <p>You will be clocked in as {{ request.user.username }}.</p>
+  {% endif %}
   <button type="submit" class="default">Clock In</button>
 </form>
 

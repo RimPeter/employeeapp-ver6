@@ -134,19 +134,23 @@ def delete_job(request, pk):
 
 
 @login_required(login_url='login')
-@staff_member_required
 def clock_in_view(request):
-    """Handle clocking in of employees."""
     if request.method == 'POST':
-        form = ClockInForm(request.POST)
+        form = ClockInForm(request.POST, user=request.user)
         if form.is_valid():
-            form.save()
-            messages.info(request, 'Clock-in successful!')
-            return redirect('admin:index')
+            clock_in = form.save(commit=False)
+            if request.user.is_superuser:
+                # Superuser clocks in the selected employee
+                pass  # Employee is already set from the form
+            else:
+                # Regular user clocks in themselves
+                employee = get_object_or_404(Employee, user=request.user)
+                clock_in.employee = employee
+            clock_in.save()
+            return redirect('clock_in_success')  # Adjust redirect as needed
     else:
-        form = ClockInForm()
+        form = ClockInForm(user=request.user)
     return render(request, 'employeeapp/clockin.html', {'form': form})
-
 
 @login_required(login_url='login')
 @staff_member_required
