@@ -8,10 +8,11 @@ clock-out functionalities within a Django application.
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import JobsDone, ClockIn
+from .models import JobsDone, ClockIn, Profile
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.forms.widgets import PasswordInput, TextInput
+from django.core.exceptions import ValidationError
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -103,3 +104,20 @@ class ClockOutForm(forms.ModelForm):
 
         model = ClockIn
         fields = ['employee']
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['first_name', 'last_name', 'date_of_birth', 'address', 'phone_number', 'email_address']
+        
+        # Customize widgets (optional)
+        widgets = {
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+        }
+    
+    # Optional: Add extra validation for phone number or other fields if needed
+    def clean_phone_number(self):
+        phone = self.cleaned_data.get('phone_number')
+        if len(phone) < 10:  # Example: Validate phone number length
+            raise ValidationError("Phone number must be at least 10 digits long.")
+        return phone

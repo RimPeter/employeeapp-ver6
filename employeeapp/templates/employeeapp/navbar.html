@@ -5,6 +5,7 @@
             <span class="bar"></span>
             <span class="bar"></span>
         </div>
+{% comment %} 
         {% if messages %}
             <div class="container mt-3">
                 {% for message in messages %}
@@ -15,6 +16,7 @@
                 {% endfor %}
             </div>
         {% endif %}
+         {% endcomment %}
         <ul class="navbar-menu">
             {% if user.is_authenticated %}
             <li class="navbar-item">
@@ -41,4 +43,28 @@
         mobileMenu.addEventListener('click', () => {
             navbarMenu.classList.toggle('active');
         });
+
+            // Automatically dismiss alerts after 4 seconds
+        window.addEventListener('load', function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                setTimeout(function() {
+                    var bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+
+                    // Add event listener to handle when alert is fully closed
+                    alert.addEventListener('closed.bs.alert', function () {
+                        var container = alert.parentElement;
+
+                        // Check if there are any remaining alerts in the container
+                        if (container.querySelectorAll('.alert').length === 0) {
+                            // Add a class to hide the container
+                            container.classList.add('d-none');
+                        }
+                    });
+
+                }, 4000);
+            });
+        });
+
     </script>

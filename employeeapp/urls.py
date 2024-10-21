@@ -25,4 +25,7 @@ urlpatterns = [
     path('clockin/', clock_in_view, name='employee-clockin'),
     path('clockout/', clock_out_view, name='clockout'),
     path('dashboard/', views.employee_clockin_view, name='dashboard'),
+    path('profile/create/', views.create_profile, name='create_profile'),
+    path('profile/<int:pk>/edit/', views.edit_profile, name='edit_profile'),
+    path('profile/<int:pk>/', views.profile_detail, name='profile_detail'),
 ]

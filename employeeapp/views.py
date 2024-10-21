@@ -7,7 +7,7 @@ including user registration, login, logout, job record management,
 and employee clock-in and clock-out functionalities.
 """
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
@@ -16,7 +16,7 @@ from django.utils import timezone
 from django.contrib.admin.views.decorators import staff_member_required
 from .forms import UpdateJobForm, ClockInForm, ClockOutForm
 from .forms import LoginForm, CustomUserCreationForm, JobsDoneForm
-from .models import JobsDone, ClockIn, Employee
+from .models import JobsDone, ClockIn, Employee, Profile
 
 
 def home(request):
@@ -29,7 +29,11 @@ def register(request):
     form = CustomUserCreationForm()
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
+        password = request.POST.get('password1')  
+
+        if len(password) < 8:  # Check if password is less than 8 characters
+            messages.error(request, "Password must be at least 8 characters long.")
+        elif form.is_valid():
             form.save()
             messages.success(request, "Account has been created successfully!")
             return redirect('login')
@@ -199,3 +203,44 @@ def employee_clockin_view(request):
         'clockins': clockins,
     }
     return render(request, 'employeeapp/employee-clockin.html', context)
+
+@login_required(login_url='login')
+def create_profile(request):
+    """Handle profile creation."""
+    if request.method == 'POST':
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile created successfully!')
+            return redirect('profile_detail')  # Redirect to some profile detail page or dashboard
+        else:
+            messages.error(request, 'There was an error creating the profile.')
+    else:
+        form = ProfileForm()
+    
+    context = {'form': form}
+    return render(request, 'employeeapp/create_profile.html', context)
+
+@login_required(login_url='login')
+def edit_profile(request, pk):
+    """Handle profile update."""
+    profile = get_object_or_404(Profile, pk=pk)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully!')
+            return redirect('profile_detail')  # Redirect to some profile detail page or dashboard
+        else:
+            messages.error(request, 'There was an error updating the profile.')
+    else:
+        form = ProfileForm(instance=profile)
+    
+    context = {'form': form, 'profile': profile}
+    return render(request, 'employeeapp/edit_profile.html', context)
+
+def profile_detail(request, pk):
+    """Display profile details."""
+    profile = get_object_or_404(Profile, pk=pk)
+    context = {'profile': profile}
+    return render(request, 'employeeapp/profile_detail.html', context)
