@@ -16,6 +16,15 @@
     border-radius: 5px;;
 }
 
+.dropdown-color {
+    background-color: #333;
+}
+
+.dropdown-menu {
+    background-color: #f0f0f0; /* Example: light grey background */
+    border: none; /* Remove border if necessary */
+}
+
 .jobhistory {
     
 }

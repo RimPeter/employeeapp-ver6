@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
 from django.contrib.admin.views.decorators import staff_member_required
-from .forms import UpdateJobForm, ClockInForm, ClockOutForm
+from .forms import UpdateJobForm, ClockInForm, ClockOutForm, ProfileForm
 from .forms import LoginForm, CustomUserCreationForm, JobsDoneForm
 from .models import JobsDone, ClockIn, Employee, Profile
 
@@ -210,7 +210,7 @@ def create_profile(request):
     if request.method == 'POST':
         form = ProfileForm(request.POST)
         if form.is_valid():
-            form.save()
+            profile = form.save()
             messages.success(request, 'Profile created successfully!')
             return redirect('profile_detail')  # Redirect to some profile detail page or dashboard
         else:

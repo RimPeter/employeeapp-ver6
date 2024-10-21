@@ -1,40 +1,51 @@
 <nav class="navbar">
-        <div class="navbar-brand">Employee App</div>
-        <div class="navbar-toggle" id="mobile-menu">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </div>
-{% comment %} 
-        {% if messages %}
-            <div class="container mt-3">
-                {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="navbar-brand">Employee App</div>
+    <div class="navbar-toggle" id="mobile-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </div>
+    <ul class="navbar-menu">
+        {% if user.is_authenticated %}
+        <li class="navbar-item">
+            <span class="logged-in-name">
+                Logged in as {{ user.username }} 
+            </span>
+            </li>
+        <li class="navbar-item dropdown">
+            <a href="#" class="dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                Profile
+            </a>
+            <ul class="dropdown-menu dropdown-color" aria-labelledby="profileDropdown">
+                <li>
+                    <div class="dropdown-color">
+                        <a class="dropdown-item" href="{% url 'create_profile' %}">Create Profile</a>
+                    </div>
+                </li>.
+                {% if user.profile %}
+                <div class="dropdown-color">
+                    <li><a class="dropdown-item" href="{% url 'edit_profile' pk=user.profile.pk %}">Edit Profile</a></li>
                 </div>
-                {% endfor %}
-            </div>
+                <div class="dropdown-color">
+                    <li><a class="dropdown-item" href="{% url 'profile_detail' pk=user.profile.pk %}">View Profile</a></li>
+                </div>
+
+                
+                
+                {% endif %}
+            </ul>
+        </li>
+        <li class="navbar-item"><a href="{% url 'employee-clockin' %}">Clock-in</a></li>
+        <li class="navbar-item"><a href="{% url 'employee-clockin' %}">Hours</a></li>
+        <li class="navbar-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="navbar-item"><a href="{% url 'add-job' %}">Add Job</a></li>
+        <li class="navbar-item"><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+        <li class="navbar-item"><a href="{% url 'login' %}">Login</a></li>
+        <li class="navbar-item"><a href="{% url 'register' %}">Register</a></li>
         {% endif %}
-         {% endcomment %}
-        <ul class="navbar-menu">
-            {% if user.is_authenticated %}
-            <li class="navbar-item">
-                <span class="logged-in-name">
-                   Logged in as {{ user.username }} 
-                </span>
-                </li>
-            <li class="navbar-item"><a href="{% url 'employee-clockin' %}">Clock-in</a></li>
-            <li class="navbar-item"><a href="{% url 'employee-clockin' %}">Hours</a></li>
-            <li class="navbar-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-            <li class="navbar-item"><a href="{% url 'add-job' %}">Add Job</a></li>
-            <li class="navbar-item"><a href="{% url 'logout' %}">Logout</a></li>
-            {% else %}
-            <li class="navbar-item"><a href="{% url 'login' %}">Login</a></li>
-            <li class="navbar-item"><a href="{% url 'register' %}">Register</a></li>
-            {% endif %}
-        </ul>
-    </nav>
+    </ul>
+</nav>
 
     <script>
         const mobileMenu = document.getElementById('mobile-menu');
