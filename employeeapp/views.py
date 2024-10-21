@@ -33,6 +33,8 @@ def register(request):
             form.save()
             messages.success(request, "Account has been created successfully!")
             return redirect('login')
+        else:
+            messages.error(request, "There was an error with your registration. Please try again.")
     context = {'form': form}
     return render(request, 'employeeapp/register.html', context=context)
 
@@ -50,7 +52,12 @@ def login(request):
 
             if user is not None:
                 auth.login(request, user)
+                messages.success(request, "Login successful!")
                 return redirect('dashboard')
+            else:
+                messages.error(request, "Invalid username or password.")
+        else:
+            messages.error(request, "Form is not valid. Please check your input.")
     context = {'form': form}
     return render(request, 'employeeapp/login.html', context=context)
 
@@ -95,6 +102,8 @@ def add_job(request):
             job.save()
             messages.success(request, "Your job-record has been created!")
             return redirect('dashboard')
+        else:
+            messages.error(request, "There was an error with the job submission. Please try again.")
     else:
         form = JobsDoneForm()
     context = {'form': form}
@@ -112,6 +121,8 @@ def update_job(request, pk):
             form.save()
             messages.success(request, "Your job-record has been updated!")
             return redirect('dashboard')
+        else:
+            messages.error(request, "There was an error updating the job. Please try again.")
     context = {'form': form}
     return render(request, 'employeeapp/update-record.html', context=context)
 
@@ -140,14 +151,16 @@ def clock_in_view(request):
         if form.is_valid():
             clock_in = form.save(commit=False)
             if request.user.is_superuser:
-                # Superuser clocks in the selected employee
+                # Superuser clocks-in the selected employee
                 pass  # Employee is already set from the form
             else:
                 # Regular user clocks in themselves
                 employee = get_object_or_404(Employee, user=request.user)
                 clock_in.employee = employee
             clock_in.save()
-            return redirect('clock_in_success')  # Adjust redirect as needed
+            return redirect('clock_in_success') 
+        else:
+            messages.error(request, "There was an error with clock-in. Please try again.")
     else:
         form = ClockInForm(user=request.user)
     return render(request, 'employeeapp/clockin.html', {'form': form})
@@ -167,6 +180,10 @@ def clock_out_view(request):
                 clock_in_instance.save()
                 messages.info(request, 'Clock-out successful!')
                 return redirect('admin:index')
+            else:
+                messages.error(request, 'No active clock-in found for this employee.')
+        else:
+            messages.error(request, "Form is invalid. Please try again.")
     else:
         form = ClockOutForm()
     return render(request, 'employeeapp/clockout.html', {'form': form})
