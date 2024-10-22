@@ -9,4 +9,9 @@
         <li>Phone Number: {{ profile.phone_number }}</li>
         <li>Email Address: {{ profile.email_address }}</li>
     </ul>
+    <div class="profile-actions">
+        <a href="{% url 'edit_profile' pk=profile.pk %}" class="btn btn-primary">Edit Profile</a>
+        <a href="{% url 'delete_profile' pk=profile.pk %}" class="btn btn-danger">Delete Profile</a>
+        <a href="{% url 'delete_user' pk=profile.user.pk %}" class="btn btn-warning">Delete Account</a>
+    </div>
 {% endblock %}

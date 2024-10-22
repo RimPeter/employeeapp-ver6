@@ -18,6 +18,8 @@ from django.contrib.admin.views.decorators import staff_member_required
 from .forms import UpdateJobForm, ClockInForm, ClockOutForm, ProfileForm
 from .forms import LoginForm, CustomUserCreationForm, JobsDoneForm
 from .models import JobsDone, ClockIn, Employee, Profile
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 def home(request):
@@ -219,9 +221,11 @@ def create_profile(request):
     if request.method == 'POST':
         form = ProfileForm(request.POST)
         if form.is_valid():
-            profile = form.save()
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
             messages.success(request, 'Profile created successfully!')
-            return redirect('profile_detail')  # Redirect to some profile detail page or dashboard
+            return redirect('profile_detail', pk=profile.pk) 
         else:
             messages.error(request, 'There was an error creating the profile.')
     else:
@@ -253,3 +257,34 @@ def profile_detail(request, pk):
     profile = get_object_or_404(Profile, pk=pk)
     context = {'profile': profile}
     return render(request, 'employeeapp/profile_detail.html', context)
+
+@login_required
+def delete_profile(request, pk):
+    profile = get_object_or_404(Profile, pk=pk)
+
+    if profile.user != request.user:
+        messages.error(request, "You are not authorized to delete this profile.")
+        return redirect('profile_detail', pk=profile.pk)
+
+    if request.method == 'POST':
+        profile.delete()
+        messages.success(request, "Your profile has been deleted.")
+        return redirect('dashboard')  
+
+    return render(request, 'employeeapp/delete_profile.html', {'profile': profile})
+
+@login_required
+def delete_user(request, pk):
+    user = get_object_or_404(User, pk=pk)
+
+    # Ensure that the user is the logged-in user
+    if user != request.user:
+        messages.error(request, "You are not authorized to delete this account.")
+        return redirect('profile_detail', pk=request.user.profile.pk)
+
+    if request.method == 'POST':
+        user.delete()
+        messages.success(request, "Your account has been deleted.")
+        return redirect('login')  # Redirect to the home page after account deletion
+
+    return render(request, 'employeeapp/delete_user.html', {'user': user})

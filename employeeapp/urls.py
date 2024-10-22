@@ -28,4 +28,6 @@ urlpatterns = [
     path('profile/create/', views.create_profile, name='create_profile'),
     path('profile/<int:pk>/edit/', views.edit_profile, name='edit_profile'),
     path('profile/<int:pk>/', views.profile_detail, name='profile_detail'),
+    path('profile/<int:pk>/delete/', views.delete_profile, name='delete_profile'),
+    path('user/<int:pk>/delete/', views.delete_user, name='delete_user'),
 ]

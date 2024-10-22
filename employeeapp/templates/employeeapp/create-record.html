@@ -5,11 +5,16 @@
     <h3>Create New Record</h3>
     <h6>Fill in the details below to create a new job record.</h6>
     <hr>
-    <form method="POST" autocomplete="off">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-success btn-sm createbtn">Create</button>
-    </form>
+    {% if profile %}
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success btn-sm createbtn">Create</button>
+        </form>
+    {% else %}
+        <p>You must complete your profile before creating record.</p>
+        <a href="{% url 'create_profile' %}" class="btn btn-primary">Create Profile</a>
+    {% endif %}
     <br>
     <a href="{% url 'dashboard' %}" class="btn btn-success btn-sm">Return to Dashboard &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i></a>
 </div>
