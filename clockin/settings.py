@@ -16,7 +16,7 @@ if os.path.isfile('env.py'):
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = True #os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = False #os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.herokuapp.com']
 
@@ -83,9 +83,9 @@ WSGI_APPLICATION = 'clockin.wsgi.application'
 
 
 
-# DATABASES = {
-#     'default': dj_database_url.parse(os.environ.get("DATABASE_URL", "sqlite:///db.sqlite3"))
-# }
+DATABASES = {
+    'default': dj_database_url.parse(os.environ.get("DATABASE_URL", "sqlite:///db.sqlite3"))
+}
 
 
 AUTH_PASSWORD_VALIDATORS = [
