@@ -230,7 +230,7 @@ def edit_profile(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile updated successfully!')
-            return redirect('profile_detail')  # Redirect to some profile detail page or dashboard
+            return redirect('profile_detail', pk=profile.pk) 
         else:
             messages.error(request, 'There was an error updating the profile.')
     else:

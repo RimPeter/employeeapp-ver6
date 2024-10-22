@@ -53,6 +53,7 @@ def validate_age(value):
         raise ValidationError('You must be at least 18 years old.')
 
 class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     date_of_birth = models.DateField(validators=[validate_age])
