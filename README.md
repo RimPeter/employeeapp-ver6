@@ -1,8 +1,301 @@
-# Employee App
+# Employee Clock-In System
 
-## Overview
+## Table of Contents
 
-The Employee App is a simple Django application that manages employee clock-in and clock-out times. It includes a web interface for employee to show clock in and out times, as well as an admin interface to manage employee data and view clock-in records.
+- [Introduction](#introduction)
+- [Project Overview](#project-overview)
+- [UX Design Process](#ux-design-process)
+  - [User Personas](#user-personas)
+  - [User Stories](#user-stories)
+  - [Design Goals](#design-goals)
+  - [Wireframes and Mockups](#wireframes-and-mockups)
+    - [Home Page](#home-page)
+    - [Login Page](#login-page)
+    - [Dashboard](#dashboard)
+    - [Clock-In Page](#clock-in-page)
+    - [Clock-In History Page](#clock-in-history-page)
+    - [Profile Creation and Editing](#profile-creation-and-editing)
+- [Implementation](#implementation)
+  - [Home Page](#home-page-1)
+  - [Login and Registration](#login-and-registration)
+  - [Dashboard](#dashboard-1)
+  - [Clock-In Functionality](#clock-in-functionality)
+  - [Clock-In History](#clock-in-history)
+  - [Profile Management](#profile-management)
+- [Conclusion](#conclusion)
+- [Appendix](#appendix)
+  - [Diagrams and Screenshots](#diagrams-and-screenshots)
+
+---
+
+## Introduction
+
+This document outlines the UX design work undertaken for the Employee Clock-In System project. It details the design process, including wireframes, mockups, and diagrams created to visualize the user interface and experience. The reasoning behind design decisions is explained, and the implementation of these designs is demonstrated.
+
+## Project Overview
+
+The Employee Clock-In System is a web application built using Django. It allows employees to:
+
+- Register and log in to their accounts.
+- Create and manage their profiles.
+- Clock in and clock out of work.
+- View their clock-in history for the current month.
+- Manage job records (e.g., jobs done, hours worked).
+
+## UX Design Process
+
+### User Personas
+
+1. **Regular Employee**
+
+   - **Goals:**
+     - Easily clock in and out.
+     - View clock-in history.
+     - Manage personal profile.
+   - **Frustrations:**
+     - Complex navigation.
+     - Unclear instructions.
+
+2. **Administrator/Superuser**
+
+   - **Goals:**
+     - Oversee employee clock-ins.
+     - Manage employee profiles.
+     - Access administrative functions.
+   - **Frustrations:**
+     - Lack of oversight tools.
+     - Inability to edit records when necessary.
+
+### User Stories
+
+- **As a regular employee, I want to:**
+
+  - Register and log in securely.
+  - Create and edit my profile.
+  - Clock in when I start work and clock out when I finish.
+  - View my clock-in history for the current month.
+
+- **As an administrator, I want to:**
+
+  - Access an administrative dashboard.
+  - View all employee clock-in records.
+  - Manage employee profiles.
+
+### Design Goals
+
+- **Simplicity:** Ensure the interface is clean and easy to navigate.
+- **Clarity:** Provide clear instructions and feedback to the user.
+- **Responsiveness:** Design the UI to be responsive across devices.
+- **Accessibility:** Use accessible design practices for all users.
+
+### Wireframes and Mockups
+
+#### Home Page
+
+- **Description:** The landing page introduces the application and provides navigation links to register or log in.
+- **Design Elements:**
+  - Application title and brief description.
+  - Prominent buttons for "Register" and "Login".
+  - A navigation bar with links to other pages (once logged in).
+
+![Home Page Wireframe](./diagrams/home_page_wireframe.png)
+
+#### Login Page
+
+- **Description:** Allows users to log in using their credentials.
+- **Design Elements:**
+  - Username and password fields.
+  - "Remember Me" checkbox (optional).
+  - "Forgot Password" link.
+  - Submit button.
+
+![Login Page Wireframe](./diagrams/login_page_wireframe.png)
+
+#### Dashboard
+
+- **Description:** The main hub for logged-in users, providing access to all functionalities.
+- **Design Elements:**
+  - Welcome message with the user's name.
+  - Navigation links or buttons to:
+    - Clock In/Out.
+    - View Clock-In History.
+    - Manage Profile.
+    - Log Out.
+
+![Dashboard Wireframe](./diagrams/dashboard_wireframe.png)
+
+#### Clock-In Page
+
+- **Description:** Allows users to clock in or out.
+- **Design Elements When Not Clocked In:**
+  - Message indicating the user is not clocked in.
+  - "Clock In" button.
+
+- **Design Elements When Clocked In:**
+  - Message displaying the clock-in time.
+  - "Clock Out" button.
+
+![Clock-In Page Wireframe](./diagrams/clock_in_page_wireframe.png)
+
+#### Clock-In History Page
+
+- **Description:** Displays a list of the user's clock-in records for the current month.
+- **Design Elements:**
+  - Table listing:
+    - Clock-In Time.
+    - Clock-Out Time.
+    - Duration.
+  - Option to navigate to previous months (optional feature).
+
+![Clock-In History Wireframe](./diagrams/clockin_history_wireframe.png)
+
+#### Profile Creation and Editing
+
+- **Description:** Allows users to create or edit their profiles.
+- **Design Elements:**
+  - Form fields for:
+    - First Name
+    - Last Name
+    - Date of Birth
+    - Address
+    - Phone Number
+    - Email Address
+  - Submit button.
+
+![Profile Page Wireframe](./diagrams/profile_page_wireframe.png)
+
+---
+
+## Implementation
+
+The designs created during the UX process were implemented using Django templates, views, and models. The following sections demonstrate how each design was realized in the application.
+
+### Home Page
+
+- **Implementation Details:**
+  - Used a simple template extending a base layout.
+  - Included navigation links to "Register" and "Login".
+  - Displayed a brief introduction to the application.
+
+- **Result:**
+  - The home page matches the wireframe, providing a clear entry point for users.
+
+### Login and Registration
+
+- **Implementation Details:**
+  - Created custom forms for user authentication.
+  - Styled forms using Bootstrap for consistency.
+  - Included helpful error messages and validation.
+
+- **Result:**
+  - The login and registration pages align with the mockups, offering a user-friendly experience.
+
+### Dashboard
+
+- **Implementation Details:**
+  - Displayed a welcome message with the user's name.
+  - Provided buttons for key actions: Clock In/Out, View History, Manage Profile.
+  - Ensured the dashboard is responsive and accessible.
+
+- **Result:**
+  - The dashboard serves as a central hub, reflecting the design goals of simplicity and clarity.
+
+### Clock-In Functionality
+
+- **Implementation Details:**
+  - Implemented clock-in and clock-out logic in views.
+  - Displayed appropriate messages based on the user's clock-in status.
+  - Ensured that time fields are handled automatically without user input.
+
+- **Result:**
+  - The clock-in page functions as designed, with messages and buttons updating based on status.
+
+### Clock-In History
+
+- **Implementation Details:**
+  - Created a view to retrieve clock-in records for the current month.
+  - Designed a template to display records in a table format.
+  - Included duration calculations and formatted dates.
+
+- **Result:**
+  - Users can view their clock-in history, matching the wireframe and fulfilling user stories.
+
+### Profile Management
+
+- **Implementation Details:**
+  - Developed forms for creating and editing profiles.
+  - Applied validation rules (e.g., age verification).
+  - Provided feedback messages upon successful updates or errors.
+
+- **Result:**
+  - The profile pages adhere to the design, allowing users to manage their information effectively.
+
+---
+
+## Conclusion
+
+The UX design process guided the development of the Employee Clock-In System. By creating wireframes and mockups, we established a clear vision for the application's interface and user experience. These designs were faithfully implemented, resulting in an application that meets the needs of its users through intuitive navigation, responsive design, and essential functionality.
+
+---
+
+## Appendix
+
+### Diagrams and Screenshots
+
+**Note:** Placeholder images are used below. Replace them with actual images of your wireframes and screenshots of the implemented pages.
+
+#### Home Page Wireframe
+
+![Home Page Wireframe](./diagrams/home_page_wireframe.png)
+
+#### Home Page Implementation
+
+![Home Page Screenshot](./screenshots/home_page.png)
+
+#### Login Page Wireframe
+
+![Login Page Wireframe](./diagrams/login_page_wireframe.png)
+
+#### Login Page Implementation
+
+![Login Page Screenshot](./screenshots/login_page.png)
+
+#### Dashboard Wireframe
+
+![Dashboard Wireframe](./diagrams/dashboard_wireframe.png)
+
+#### Dashboard Implementation
+
+![Dashboard Screenshot](./screenshots/dashboard.png)
+
+#### Clock-In Page Wireframe
+
+![Clock-In Page Wireframe](./diagrams/clock_in_page_wireframe.png)
+
+#### Clock-In Page Implementation
+
+![Clock-In Page Screenshot](./screenshots/clock_in_page.png)
+
+#### Clock-In History Wireframe
+
+![Clock-In History Wireframe](./diagrams/clockin_history_wireframe.png)
+
+#### Clock-In History Implementation
+
+![Clock-In History Screenshot](./screenshots/clockin_history.png)
+
+#### Profile Page Wireframe
+
+![Profile Page Wireframe](./diagrams/profile_page_wireframe.png)
+
+#### Profile Page Implementation
+
+![Profile Page Screenshot](./screenshots/profile_page.png)
+
+---
+
+**Please replace the placeholder image paths (`./diagrams/...` and `./screenshots/...`) with the actual paths to your wireframes and screenshots in your project repository.**
+
 
 ## Screenshots
 ### Large screen view:
