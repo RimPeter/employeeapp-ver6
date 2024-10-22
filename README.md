@@ -252,6 +252,21 @@ The UX design process guided the development of the Employee Clock-In System. By
 - `clockin/`: Directory for clock-in related features and templates.
 
 ## Testing
+### Automated testing
+results for views.py:
+```
+Found 13 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+Response status code: 302
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 13.684s
+
+OK
+Destroying test database for alias 'default'...
+```
+
 UI has been tested manually, no unittesting involved.
 During manual testing there was no bug found.
 ### CSS Checker:
