@@ -25,6 +25,27 @@
 - [Conclusion](#conclusion)
 - [Appendix](#appendix)
   - [Diagrams and Screenshots](#diagrams-and-screenshots)
+- [Test Cases](#test-cases)
+  - [User Authentication](#user-authentication)
+    - [User Registration](#user-registration)
+    - [User Registration (Invalid Data)](#user-registration-invalid-data)
+    - [User Login](#user-login)
+    - [User Logout](#user-logout)
+  - [Profile Management](#profile-management)
+    - [Create Profile](#create-profile)
+    - [Create Profile (Underage User)](#create-profile-underage-user)
+    - [Edit Profile](#edit-profile)
+    - [Delete Profile](#delete-profile)
+  - [Job Records Management](#job-records-management)
+    - [Add Job](#add-job)
+    - [Add Job (Invalid Data)](#add-job-invalid-data)
+    - [Update Job](#update-job)
+    - [Delete Job](#delete-job)
+  - [Clock-In/Clock-Out Functionality](#clock-inclock-out-functionality)
+    - [Clock In](#clock-in)
+    - [Clock Out](#clock-out)
+    - [Clock In Without Profile](#clock-in-without-profile)
+- [Conclusion](#conclusion)
 
 ---
 
@@ -278,6 +299,250 @@ During manual testing there was no bug found.
 ![url-pep8](README-images/url-pep8.png)
 #### views.py:
 ![views-pep8](README-images/views-pep8.png)
+## Test Cases
+
+### User Authentication
+
+#### User Registration
+
+- **Expected:**
+  - When a new user fills out the registration form with valid information and submits it, their account should be created, and they should be redirected to the login page with a success message.
+- **Testing:**
+  - Filled out the registration form with:
+    - Username: `testuser`
+    - Email: `testuser@example.com`
+    - Password: `TestPass123`
+    - Confirm Password: `TestPass123`
+  - Submitted the form.
+- **Result:**
+  - The user was successfully registered.
+  - Redirected to the login page.
+  - Success message displayed: "Registration successful! Please log in."
+- **Fix:**
+  - N/A (Feature worked as expected).
+
+#### User Registration (Invalid Data)
+
+- **Expected:**
+  - If the user submits the registration form with mismatched passwords, an error message should be displayed, and the account should not be created.
+- **Testing:**
+  - Filled out the registration form with:
+    - Username: `testuser`
+    - Email: `testuser@example.com`
+    - Password: `TestPass123`
+    - Confirm Password: `DifferentPass`
+  - Submitted the form.
+- **Result:**
+  - Form validation failed.
+  - Error message displayed: "Passwords do not match."
+  - Account was not created.
+- **Fix:**
+  - N/A (Validation worked as expected).
+
+#### User Login
+
+- **Expected:**
+  - When a registered user enters valid credentials and logs in, they should be redirected to the dashboard.
+- **Testing:**
+  - On the login page, entered:
+    - Username: `testuser`
+    - Password: `TestPass123`
+  - Clicked "Log In."
+- **Result:**
+  - Successfully logged in.
+  - Redirected to the dashboard.
+- **Fix:**
+  - N/A (Feature worked as expected).
+
+#### User Logout
+
+- **Expected:**
+  - When a logged-in user clicks the "Logout" button, they should be logged out and redirected to the home page.
+- **Testing:**
+  - While logged in as `testuser`, clicked the "Logout" button.
+- **Result:**
+  - User was logged out.
+  - Redirected to the home page.
+  - Success message displayed: "You have been logged out."
+- **Fix:**
+  - N/A (Feature worked as expected).
+
+### Profile Management
+
+#### Create Profile
+
+- **Expected:**
+  - After registration, the user should be able to create a profile by filling out the profile form with valid data.
+- **Testing:**
+  - Navigated to "Create Profile" page.
+  - Filled out the form with:
+    - First Name: `Test`
+    - Last Name: `User`
+    - Date of Birth: `1990-01-01`
+    - Address: `123 Test Street`
+    - Phone Number: `1234567890`
+    - Email Address: `testuser@example.com`
+  - Submitted the form.
+- **Result:**
+  - Profile was successfully created.
+  - Redirected to the profile detail page.
+- **Fix:**
+  - N/A (Feature worked as expected).
+
+#### Create Profile (Underage User)
+
+- **Expected:**
+  - If the user enters a date of birth indicating they are under 18, an error message should be displayed, and the profile should not be created.
+- **Testing:**
+  - Filled out the profile form with Date of Birth: `2010-01-01`.
+  - Submitted the form.
+- **Result:**
+  - Form validation failed.
+  - Error message displayed: "You must be at least 18 years old."
+  - Profile was not created.
+- **Fix:**
+  - N/A (Validation worked as expected).
+
+#### Edit Profile
+
+- **Expected:**
+  - User should be able to edit their profile and save changes.
+- **Testing:**
+  - Navigated to "Edit Profile" page.
+  - Updated:
+    - Address: `456 New Street`
+  - Submitted the form.
+- **Result:**
+  - Profile was updated.
+  - Changes reflected on the profile detail page.
+- **Fix:**
+  - N/A (Feature worked as expected).
+
+#### Delete Profile
+
+- **Expected:**
+  - User should be able to delete their profile, which removes their profile information but retains their user account.
+- **Testing:**
+  - Navigated to "Delete Profile" page.
+  - Confirmed deletion.
+- **Result:**
+  - Profile was deleted.
+  - Redirected to a confirmation page.
+- **Fix:**
+  - N/A (Feature worked as expected).
+
+### Job Records Management
+
+#### Add Job
+
+- **Expected:**
+  - User should be able to add a new job record with valid data.
+- **Testing:**
+  - Navigated to "Add Job" page.
+  - Filled out the form with:
+    - Job Title: `painting`
+    - Job Done in Hours: `5`
+  - Submitted the form.
+- **Result:**
+  - Job record was created.
+  - Redirected to the dashboard.
+- **Fix:**
+  - N/A (Feature worked as expected).
+
+#### Add Job (Invalid Data)
+
+- **Expected:**
+  - If the user submits the form with invalid data (e.g., negative hours), an error message should be displayed.
+- **Testing:**
+  - Filled out the form with:
+    - Job Title: `painting`
+    - Job Done in Hours: `-2`
+  - Submitted the form.
+- **Result:**
+  - Form validation failed.
+  - Error message displayed: "Ensure this value is greater than or equal to 0."
+  - Job record was not created.
+- **Fix:**
+  - N/A (Validation worked as expected).
+
+#### Update Job
+
+- **Expected:**
+  - User should be able to update an existing job record.
+- **Testing:**
+  - Navigated to "Update Job" page for a specific job.
+  - Updated:
+    - Job Done in Hours: `6`
+  - Submitted the form.
+- **Result:**
+  - Job record was updated.
+  - Changes reflected on the dashboard.
+- **Fix:**
+  - N/A (Feature worked as expected).
+
+#### Delete Job
+
+- **Expected:**
+  - User should be able to delete a job record.
+- **Testing:**
+  - Navigated to "Delete Job" page for a specific job.
+  - Confirmed deletion.
+- **Result:**
+  - Job record was deleted.
+  - Redirected to the dashboard.
+- **Fix:**
+  - N/A (Feature worked as expected).
+
+### Clock-In/Clock-Out Functionality
+
+#### Clock In
+
+- **Expected:**
+  - User should be able to clock in, which records the current time as the clock-in time.
+- **Testing:**
+  - Navigated to "Clock In" page.
+  - Clicked "Clock In" button.
+- **Result:**
+  - Clock-in time was recorded.
+  - Success message displayed: "You have clocked in."
+- **Fix:**
+  - N/A (Feature worked as expected).
+
+#### Clock Out
+
+- **Expected:**
+  - User should be able to clock out, which records the current time as the clock-out time.
+- **Testing:**
+  - Navigated to "Clock Out" page.
+  - Clicked "Clock Out" button.
+- **Result:**
+  - Clock-out time was recorded.
+  - Success message displayed: "You have clocked out."
+- **Fix:**
+  - N/A (Feature worked as expected).
+
+#### Clock In Without Profile
+
+- **Expected:**
+  - If a user without a profile attempts to clock in, an error message should be displayed.
+- **Testing:**
+  - Logged in as a user without a profile.
+  - Navigated to "Clock In" page.
+  - Clicked "Clock In" button.
+- **Result:**
+  - Error message displayed: "You need to create a profile before clocking in."
+  - Clock-in was not recorded.
+- **Fix:**
+  - N/A (Validation worked as expected).
+
+---
+
+## Conclusion
+
+Through detailed testing of each functionality and user interaction, the **EmployeeApp** has demonstrated reliability and correctness in its operations. Any issues encountered during testing were addressed, ensuring that the application meets the expected standards of performance and usability.
+
+---
+
 
 ## Sources
 - [Icon Converter](https://www.icoconverter.com/):Great to make favicons
