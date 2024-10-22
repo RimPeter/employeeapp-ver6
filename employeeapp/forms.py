@@ -75,24 +75,8 @@ class JobsDoneForm(forms.ModelForm):
         fields = ['job_title', 'job_done_in_hours']
 
 
-class ClockInForm(forms.ModelForm):
-    class Meta:
-        model = ClockIn
-        exclude = ['employee']
-
-    def __init__(self, *args, user=None, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.user = user  # Ensure self.user is set
-        if self.user and self.user.is_superuser:
-            # Superusers can select any employee
-            self.fields['employee'] = forms.ModelChoiceField(
-                queryset=Employee.objects.all(),
-                widget=forms.Select(attrs={'class': 'form-control'}),
-                required=True
-            )
-            # Include 'employee' in the form fields for superusers
-            self._meta.exclude = []
-
+class ClockInForm(forms.Form):
+    pass
 
 class ClockOutForm(forms.ModelForm):
     """Clock out an employee."""

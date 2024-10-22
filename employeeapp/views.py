@@ -170,18 +170,18 @@ def clock_in_view(request):
         profile = request.user.profile
     except ObjectDoesNotExist:
         profile = None
-        
+
     try:
         employee = Employee.objects.get(user=request.user)
     except Employee.DoesNotExist:
-        messages.error(request, "Your account is not added to the employee list yet.")
-        return redirect('create_profile') 
+        messages.error(request, "Your account is not associated with an employee profile yet.")
+        return redirect('create_profile')
 
     if not profile:
         messages.error(request, "You must complete your profile before clocking in.")
         return redirect('create_profile')
-    
-    
+
+    # Check if the user is already clocked in
     active_clockin = ClockIn.objects.filter(employee=employee, clock_out_time__isnull=True).first()
 
     if request.method == 'POST':
@@ -193,26 +193,22 @@ def clock_in_view(request):
             return redirect('clock_out_success')
         else:
             # User wants to clock in
-            form = ClockInForm(request.POST, user=request.user)
+            form = ClockInForm(request.POST)
             if form.is_valid():
-                clock_in = form.save(commit=False)
-                clock_in.employee = employee
-                clock_in.save()
+                clock_in = ClockIn.objects.create(employee=employee)
                 messages.success(request, "You have successfully clocked in.")
                 return redirect('clock_in_success')
             else:
-                for field, errors in form.errors.items():
-                    for error in errors:
-                        messages.error(request, f"Error in {field}: {error}")
                 messages.error(request, "There was an error with clock-in. Please try again.")
+                return render(request, 'employeeapp/clockin.html', {'form': form, 'profile': profile})
     else:
         if active_clockin:
             # User is clocked in; display clock-out option
-            return render(request, 'employeeapp/clockin.html', {'active_clockin': active_clockin})
+            return render(request, 'employeeapp/clockin.html', {'active_clockin': active_clockin, 'profile': profile})
         else:
             # User is not clocked in; display clock-in form
-            form = ClockInForm(user=request.user)
-            return render(request, 'employeeapp/clockin.html', {'form': form})
+            form = ClockInForm()
+            return render(request, 'employeeapp/clockin.html', {'form': form, 'profile': profile})
 
 @login_required(login_url='login')
 def clock_in_success(request):

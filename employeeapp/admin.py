@@ -3,9 +3,16 @@ from .models import JobsDone, ClockIn, Employee, Profile
 
 admin.site.register(JobsDone)
 
+class ClockInInline(admin.TabularInline):
+    model = ClockIn
+    extra = 0
+    readonly_fields = ('clock_in_time',)
+    fields = ('clock_in_time', 'clock_out_time')
+
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'user')
+    inlines = [ClockInInline]
 
 @admin.register(ClockIn)
 class ClockInAdmin(admin.ModelAdmin):
