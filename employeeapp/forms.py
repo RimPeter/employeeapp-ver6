@@ -8,7 +8,7 @@ clock-out functionalities within a Django application.
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import JobsDone, ClockIn, Profile
+from .models import JobsDone, ClockIn, Profile, Employee
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.forms.widgets import PasswordInput, TextInput
@@ -76,24 +76,22 @@ class JobsDoneForm(forms.ModelForm):
 
 
 class ClockInForm(forms.ModelForm):
-    """Clock in an employee."""
-
     class Meta:
-        """Specify the model and fields for the clock-in form."""
-
         model = ClockIn
-        fields = []
-        
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
-        super(ClockInForm, self).__init__(*args, **kwargs)
-        if user and user.is_superuser:
+        exclude = ['employee']
+
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user  # Ensure self.user is set
+        if self.user and self.user.is_superuser:
             # Superusers can select any employee
             self.fields['employee'] = forms.ModelChoiceField(
-                queryset=User.objects.all(),
+                queryset=Employee.objects.all(),
                 widget=forms.Select(attrs={'class': 'form-control'}),
                 required=True
             )
+            # Include 'employee' in the form fields for superusers
+            self._meta.exclude = []
 
 
 class ClockOutForm(forms.ModelForm):

@@ -4,12 +4,6 @@
 
 <h2>Clock In</h2>
 
-{% if messages %}
-  {% for message in messages %}
-    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-  {% endfor %}
-{% endif %}
-
 {% get_user_profile user as profile %}
 
 {% if profile %}

@@ -170,6 +170,12 @@ def clock_in_view(request):
         profile = request.user.profile
     except ObjectDoesNotExist:
         profile = None
+        
+    try:
+        employee = Employee.objects.get(user=request.user)
+    except Employee.DoesNotExist:
+        messages.error(request, "Your account is not added to the employee list yet.")
+        return redirect('create_profile') 
 
     if not profile:
         messages.error(request, "You must complete your profile before clocking in.")
@@ -183,15 +189,23 @@ def clock_in_view(request):
                 pass  # Employee is already set from the form
             else:
                 # Regular user clocks in themselves
-                employee = get_object_or_404(Employee, user=request.user)
+                #employee = get_object_or_404(Employee, user=request.user)
                 clock_in.employee = employee
             clock_in.save()
             return redirect('clock_in_success') 
         else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Error in {field}: {error}")
             messages.error(request, "There was an error with clock-in. Please try again.")
     else:
         form = ClockInForm(user=request.user)
     return render(request, 'employeeapp/clockin.html', {'form': form})
+
+def clock_in_success(request):
+    """Render a success message after clocking in."""
+    clock_in_time = timezone.now()
+    return render(request, 'employeeapp/clock_in_success.html', {'clock_in_time': clock_in_time})
 
 @login_required(login_url='login')
 @staff_member_required
@@ -215,7 +229,6 @@ def clock_out_view(request):
     else:
         form = ClockOutForm()
     return render(request, 'employeeapp/clockout.html', {'form': form})
-
 
 @login_required(login_url='login')
 def employee_clockin_view(request):
@@ -339,3 +352,5 @@ class CustomPasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
     def get(self, request, *args, **kwargs):
         logger.info(f"User {request.user.username} has successfully changed their password.")
         return super().get(request, *args, **kwargs)
+    
+

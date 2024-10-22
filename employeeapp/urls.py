@@ -26,7 +26,6 @@ urlpatterns = [
     path('delete-job/<str:pk>/', views.delete_job, name='delete-job'),
     path('clockin/', clock_in_view, name='employee-clockin'),
     path('clockout/', clock_out_view, name='clockout'),
-    #path('dashboard/', views.employee_clockin_view, name='dashboard'),
     path('profile/create/', views.create_profile, name='create_profile'),
     path('profile/<int:pk>/edit/', views.edit_profile, name='edit_profile'),
     path('profile/<int:pk>/', views.profile_detail, name='profile_detail'),
@@ -39,4 +38,5 @@ urlpatterns = [
     path('password_change/done/', 
          CustomPasswordChangeDoneView.as_view(), 
          name='password_change_done'),
+    path('clockin/success/', views.clock_in_success, name='clock_in_success'),
 ]
