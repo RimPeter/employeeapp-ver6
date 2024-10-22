@@ -52,9 +52,6 @@ The Employee Clock-In System is a web application built using Django. It allows 
      - Easily clock in and out.
      - View clock-in history.
      - Manage personal profile.
-   - **Frustrations:**
-     - Complex navigation.
-     - Unclear instructions.
 
 2. **Administrator/Superuser**
 
@@ -62,9 +59,6 @@ The Employee Clock-In System is a web application built using Django. It allows 
      - Oversee employee clock-ins.
      - Manage employee profiles.
      - Access administrative functions.
-   - **Frustrations:**
-     - Lack of oversight tools.
-     - Inability to edit records when necessary.
 
 ### User Stories
 
@@ -98,7 +92,6 @@ The Employee Clock-In System is a web application built using Django. It allows 
   - Prominent buttons for "Register" and "Login".
   - A navigation bar with links to other pages (once logged in).
 
-![Home Page Wireframe](./diagrams/home_page_wireframe.png)
 
 #### Login Page
 
@@ -109,7 +102,6 @@ The Employee Clock-In System is a web application built using Django. It allows 
   - "Forgot Password" link.
   - Submit button.
 
-![Login Page Wireframe](./diagrams/login_page_wireframe.png)
 
 #### Dashboard
 
@@ -122,7 +114,6 @@ The Employee Clock-In System is a web application built using Django. It allows 
     - Manage Profile.
     - Log Out.
 
-![Dashboard Wireframe](./diagrams/dashboard_wireframe.png)
 
 #### Clock-In Page
 
@@ -135,7 +126,6 @@ The Employee Clock-In System is a web application built using Django. It allows 
   - Message displaying the clock-in time.
   - "Clock Out" button.
 
-![Clock-In Page Wireframe](./diagrams/clock_in_page_wireframe.png)
 
 #### Clock-In History Page
 
@@ -147,7 +137,6 @@ The Employee Clock-In System is a web application built using Django. It allows 
     - Duration.
   - Option to navigate to previous months (optional feature).
 
-![Clock-In History Wireframe](./diagrams/clockin_history_wireframe.png)
 
 #### Profile Creation and Editing
 
@@ -161,8 +150,6 @@ The Employee Clock-In System is a web application built using Django. It allows 
     - Phone Number
     - Email Address
   - Submit button.
-
-![Profile Page Wireframe](./diagrams/profile_page_wireframe.png)
 
 ---
 
@@ -238,61 +225,6 @@ The UX design process guided the development of the Employee Clock-In System. By
 
 ---
 
-## Appendix
-
-### Diagrams and Screenshots
-
-**Note:** Placeholder images are used below. Replace them with actual images of your wireframes and screenshots of the implemented pages.
-
-#### Home Page Wireframe
-
-![Home Page Wireframe](./diagrams/home_page_wireframe.png)
-
-#### Home Page Implementation
-
-![Home Page Screenshot](./screenshots/home_page.png)
-
-#### Login Page Wireframe
-
-![Login Page Wireframe](./diagrams/login_page_wireframe.png)
-
-#### Login Page Implementation
-
-![Login Page Screenshot](./screenshots/login_page.png)
-
-#### Dashboard Wireframe
-
-![Dashboard Wireframe](./diagrams/dashboard_wireframe.png)
-
-#### Dashboard Implementation
-
-![Dashboard Screenshot](./screenshots/dashboard.png)
-
-#### Clock-In Page Wireframe
-
-![Clock-In Page Wireframe](./diagrams/clock_in_page_wireframe.png)
-
-#### Clock-In Page Implementation
-
-![Clock-In Page Screenshot](./screenshots/clock_in_page.png)
-
-#### Clock-In History Wireframe
-
-![Clock-In History Wireframe](./diagrams/clockin_history_wireframe.png)
-
-#### Clock-In History Implementation
-
-![Clock-In History Screenshot](./screenshots/clockin_history.png)
-
-#### Profile Page Wireframe
-
-![Profile Page Wireframe](./diagrams/profile_page_wireframe.png)
-
-#### Profile Page Implementation
-
-![Profile Page Screenshot](./screenshots/profile_page.png)
-
----
 
 **Please replace the placeholder image paths (`./diagrams/...` and `./screenshots/...`) with the actual paths to your wireframes and screenshots in your project repository.**
 
