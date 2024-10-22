@@ -2,21 +2,29 @@
 {% load profile_tags %}
 {% block content %}
 
-<h2>Clock In</h2>
+<h2>{% if active_clockin %}Clock Out{% else %}Clock In{% endif %}</h2>
 
 {% get_user_profile user as profile %}
 
 {% if profile %}
+  {% if active_clockin %}
+    <p>You are currently clocked in since {{ active_clockin.clock_in_time|date:"H:i:s on F j, Y" }}.</p>
 
-  <form method="post">
-    {% csrf_token %}
-    {% if form.fields %}
-      {{ form.as_p }}
-    {% else %}
-    <p>You will be clocked in as {{ request.user.username }}.</p>
-    {% endif %}
-    <button type="submit" class="default">Clock In</button>
-  </form>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-primary">Clock Out</button>
+    </form>
+  {% else %}
+    <form method="post">
+      {% csrf_token %}
+      {% if form.fields %}
+        {{ form.as_p }}
+      {% else %}
+        <p>You will be clocked in as {{ request.user.username }}.</p>
+      {% endif %}
+        <button type="submit" class="default">Clock In</button>
+    </form>
+  {% endif %}
   
 {% else %}
   <p>You must complete your profile before clocking in.</p>

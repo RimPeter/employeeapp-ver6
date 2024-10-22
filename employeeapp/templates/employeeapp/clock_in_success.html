@@ -1,6 +1,6 @@
 {% extends 'employeeapp/base.html' %}
 {% block content %}
     <h2>Clock-In Successful</h2>
-    <p>You have successfully clocked in at {{ clock_in_time }}.</p>
+    <p>You have successfully clocked in at {{ clock_in_time|date:"H:i:s on F j, Y" }}.</p>
     <a href="{% url 'dashboard' %}" class="btn btn-primary">Return to Dashboard</a>
 {% endblock %}

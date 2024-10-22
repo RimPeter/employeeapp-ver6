@@ -39,4 +39,5 @@ urlpatterns = [
          CustomPasswordChangeDoneView.as_view(), 
          name='password_change_done'),
     path('clockin/success/', views.clock_in_success, name='clock_in_success'),
+    path('clockout/success/', views.clock_out_success, name='clock_out_success'),
 ]

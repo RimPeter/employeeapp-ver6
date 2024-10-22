@@ -180,32 +180,51 @@ def clock_in_view(request):
     if not profile:
         messages.error(request, "You must complete your profile before clocking in.")
         return redirect('create_profile')
-    if request.method == 'POST':
-        form = ClockInForm(request.POST, user=request.user)
-        if form.is_valid():
-            clock_in = form.save(commit=False)
-            if request.user.is_superuser:
-                # Superuser clocks-in the selected employee
-                pass  # Employee is already set from the form
-            else:
-                # Regular user clocks in themselves
-                #employee = get_object_or_404(Employee, user=request.user)
-                clock_in.employee = employee
-            clock_in.save()
-            return redirect('clock_in_success') 
-        else:
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"Error in {field}: {error}")
-            messages.error(request, "There was an error with clock-in. Please try again.")
-    else:
-        form = ClockInForm(user=request.user)
-    return render(request, 'employeeapp/clockin.html', {'form': form})
+    
+    
+    active_clockin = ClockIn.objects.filter(employee=employee, clock_out_time__isnull=True).first()
 
+    if request.method == 'POST':
+        if active_clockin:
+            # User wants to clock out
+            active_clockin.clock_out_time = timezone.now()
+            active_clockin.save()
+            messages.success(request, "You have successfully clocked out.")
+            return redirect('clock_out_success')
+        else:
+            # User wants to clock in
+            form = ClockInForm(request.POST, user=request.user)
+            if form.is_valid():
+                clock_in = form.save(commit=False)
+                clock_in.employee = employee
+                clock_in.save()
+                messages.success(request, "You have successfully clocked in.")
+                return redirect('clock_in_success')
+            else:
+                for field, errors in form.errors.items():
+                    for error in errors:
+                        messages.error(request, f"Error in {field}: {error}")
+                messages.error(request, "There was an error with clock-in. Please try again.")
+    else:
+        if active_clockin:
+            # User is clocked in; display clock-out option
+            return render(request, 'employeeapp/clockin.html', {'active_clockin': active_clockin})
+        else:
+            # User is not clocked in; display clock-in form
+            form = ClockInForm(user=request.user)
+            return render(request, 'employeeapp/clockin.html', {'form': form})
+
+@login_required(login_url='login')
 def clock_in_success(request):
     """Render a success message after clocking in."""
     clock_in_time = timezone.now()
     return render(request, 'employeeapp/clock_in_success.html', {'clock_in_time': clock_in_time})
+
+@login_required(login_url='login')
+def clock_out_success(request):
+    """Render a success message after clocking out."""
+    clock_out_time = timezone.now()
+    return render(request, 'employeeapp/clock_out_success.html', {'clock_out_time': clock_out_time})
 
 @login_required(login_url='login')
 @staff_member_required
