@@ -19,8 +19,11 @@ from .forms import UpdateJobForm, ClockInForm, ClockOutForm, ProfileForm
 from .forms import LoginForm, CustomUserCreationForm, JobsDoneForm
 from .models import JobsDone, ClockIn, Employee, Profile
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import PasswordChangeForm
-
+from django.contrib.auth.views import PasswordChangeDoneView
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordChangeView
+import logging
 
 def home(request):
     """Render the home page."""
@@ -288,3 +291,36 @@ def delete_user(request, pk):
         return redirect('login')  # Redirect to the home page after account deletion
 
     return render(request, 'employeeapp/delete_user.html', {'user': user})
+
+logger = logging.getLogger(__name__)
+class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    """
+    View to handle password change.
+    """
+    template_name = 'employeeapp/password_change.html'
+    success_url = reverse_lazy('password_change_done')
+
+    def form_valid(self, form):
+        logger.info(f"User {self.request.user.username} is changing their password.")
+        messages.success(self.request, "Your password was successfully updated!")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        logger.warning(f"User {self.request.user.username} failed to change their password.")
+        messages.error(self.request, "There was an error changing your password. Please try again.")
+        return super().form_invalid(form)
+
+class CustomPasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
+    """
+    View to confirm password change.
+    """
+    template_name = 'employeeapp/password_change_done.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = "Password Change Successful"
+        return context
+
+    def get(self, request, *args, **kwargs):
+        logger.info(f"User {request.user.username} has successfully changed their password.")
+        return super().get(request, *args, **kwargs)
