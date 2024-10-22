@@ -6,23 +6,16 @@ from dotenv import load_dotenv
 load_dotenv()
 import sys
 
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 if os.path.isfile('env.py'):
     import env
     sys.path.append(str(BASE_DIR))
     import env
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True #os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.herokuapp.com']
@@ -39,6 +32,23 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'employeeapp',
 ]
+
+#for automated testing
+if 'test' in sys.argv or 'test_coverage' in sys.argv:
+    # Use SQLite for testing
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',  # In-memory database for faster tests
+        }
+    }
+else:
+    # Use the database specified in DATABASE_URL or default to SQLite
+    DATABASES = {
+        'default': dj_database_url.parse(
+            os.environ.get("DATABASE_URL", "sqlite:///db.sqlite3")
+        )
+    }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -73,13 +83,10 @@ WSGI_APPLICATION = 'clockin.wsgi.application'
 
 
 
-DATABASES = {
-    'default': dj_database_url.parse(os.environ.get("DATABASE_URL", "sqlite:///db.sqlite3"))
-}
+# DATABASES = {
+#     'default': dj_database_url.parse(os.environ.get("DATABASE_URL", "sqlite:///db.sqlite3"))
+# }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
