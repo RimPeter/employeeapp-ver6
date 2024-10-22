@@ -211,6 +211,33 @@ def clock_in_view(request):
             return render(request, 'employeeapp/clockin.html', {'form': form, 'profile': profile})
 
 @login_required(login_url='login')
+def clockin_history(request):
+    try:
+        employee = Employee.objects.get(user=request.user)
+    except Employee.DoesNotExist:
+        messages.error(request, "Your account is not associated with an employee profile yet.")
+        return redirect('create_profile')
+
+    # Get the current date and time
+    today = timezone.now()
+    # Get the first day of the current month
+    first_day_of_month = today.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+
+    # Retrieve clock-in records for the current month
+    clockin_history = ClockIn.objects.filter(
+        employee=employee,
+        clock_in_time__gte=first_day_of_month,
+        clock_in_time__lte=today
+    ).order_by('-clock_in_time')
+
+    context = {
+        'clockin_history': clockin_history,
+        'today': today,
+    }
+
+    return render(request, 'employeeapp/clockin_history.html', context)
+
+@login_required(login_url='login')
 def clock_in_success(request):
     """Render a success message after clocking in."""
     clock_in_time = timezone.now()

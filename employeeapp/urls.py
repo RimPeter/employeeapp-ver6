@@ -40,4 +40,5 @@ urlpatterns = [
          name='password_change_done'),
     path('clockin/success/', views.clock_in_success, name='clock_in_success'),
     path('clockout/success/', views.clock_out_success, name='clock_out_success'),
+    path('clockin/history/', views.clockin_history, name='clockin_history'),
 ]
