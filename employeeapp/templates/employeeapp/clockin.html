@@ -1,22 +1,37 @@
 {% extends 'employeeapp/base.html' %}
+{% load profile_tags %}
 {% block content %}
 
 <h2>Clock In</h2>
 
-<form method="post">
-  {% csrf_token %}
-  {% if form.fields %}
-    {{ form.as_p }}
-  {% else %}
-  <p>You will be clocked in as {{ request.user.username }}.</p>
-  {% endif %}
-  <button type="submit" class="default">Clock In</button>
-</form>
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+{% endif %}
 
-<h2>Clock In History</h2>
+{% get_user_profile user as profile %}
 
-<a href="{% url 'dashboard' %}" class="btn btn-secondary"
-  >Return to Dashboard &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i
-></a>
+{% if profile %}
+
+  <form method="post">
+    {% csrf_token %}
+    {% if form.fields %}
+      {{ form.as_p }}
+    {% else %}
+    <p>You will be clocked in as {{ request.user.username }}.</p>
+    {% endif %}
+    <button type="submit" class="default">Clock In</button>
+  </form>
+  
+{% else %}
+  <p>You must complete your profile before clocking in.</p>
+  <a href="{% url 'create_profile' %}" class="btn btn-primary">Create Profile</a>
+{% endif %}
+  <h2>Clock In History</h2>
+
+  <a href="{% url 'dashboard' %}" class="btn btn-secondary"
+    >Return to Dashboard &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i
+  ></a>
 
 {% endblock %}

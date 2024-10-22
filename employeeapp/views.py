@@ -12,6 +12,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from django.contrib.admin.views.decorators import staff_member_required
 from .forms import UpdateJobForm, ClockInForm, ClockOutForm, ProfileForm
@@ -150,6 +151,14 @@ def delete_job(request, pk):
 
 @login_required(login_url='login')
 def clock_in_view(request):
+    try:
+        profile = request.user.profile
+    except ObjectDoesNotExist:
+        profile = None
+
+    if not profile:
+        messages.error(request, "You must complete your profile before clocking in.")
+        return redirect('create_profile')
     if request.method == 'POST':
         form = ClockInForm(request.POST, user=request.user)
         if form.is_valid():
