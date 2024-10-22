@@ -43,15 +43,11 @@
     document.addEventListener('DOMContentLoaded', function() {
         var alertContainer = document.getElementById('alert-container');
         if (alertContainer) {
-            // Select all alert elements within the container
             var alerts = alertContainer.querySelectorAll('.alert');
             alerts.forEach(function(alert) {
-                // Attach the event listener to each alert
                 alert.addEventListener('closed.bs.alert', function(event) {
-                    // Check if there are any alerts left inside the container
                     var remainingAlerts = alertContainer.querySelectorAll('.alert');
                     if (remainingAlerts.length === 0) {
-                        // No alerts left, remove the container
                         alertContainer.remove();
                     }
                 });

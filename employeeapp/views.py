@@ -1,12 +1,3 @@
-"""
-Module Overview.
-
-This module contains view functions for handling
-various operations in the Employee App,
-including user registration, login, logout, job record management,
-and employee clock-in and clock-out functionalities.
-"""
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import auth
@@ -218,12 +209,9 @@ def clockin_history(request):
         messages.error(request, "Your account is not associated with an employee profile yet.")
         return redirect('create_profile')
 
-    # Get the current date and time
     today = timezone.now()
-    # Get the first day of the current month
     first_day_of_month = today.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
 
-    # Retrieve clock-in records for the current month
     clockin_history = ClockIn.objects.filter(
         employee=employee,
         clock_in_time__gte=first_day_of_month,
@@ -350,7 +338,6 @@ def delete_profile(request, pk):
 def delete_user(request, pk):
     user = get_object_or_404(User, pk=pk)
 
-    # Ensure that the user is the logged-in user
     if user != request.user:
         messages.error(request, "You are not authorized to delete this account.")
         return redirect('profile_detail', pk=request.user.profile.pk)
@@ -358,7 +345,7 @@ def delete_user(request, pk):
     if request.method == 'POST':
         user.delete()
         messages.success(request, "Your account has been deleted.")
-        return redirect('login')  # Redirect to the home page after account deletion
+        return redirect('login')
 
     return render(request, 'employeeapp/delete_user.html', {'user': user})
 
