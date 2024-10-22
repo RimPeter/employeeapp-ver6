@@ -104,19 +104,29 @@ def dashboard_view(request):
 @login_required(login_url='login')
 def add_job(request):
     """Handle adding a new job record."""
+    try:
+        profile = request.user.profile
+    except Profile.DoesNotExist:
+        profile = None
     if request.method == 'POST':
         form = JobsDoneForm(request.POST)
-        if form.is_valid():
+        if form.is_valid() and profile is not None:
             job = form.save(commit=False)
             job.worker = request.user
             job.save()
             messages.success(request, "Your job-record has been created!")
             return redirect('dashboard')
         else:
-            messages.error(request, "There was an error with the job submission. Please try again.")
+            if profile is None:
+                messages.error(request, "There was an error with the job submission. Please try again.")
+            else:
+                messages.error(request, "There was an error with the job submission. Please try again.")
     else:
         form = JobsDoneForm()
-    context = {'form': form}
+    context = {
+        'form': form,
+        'profile': profile,
+        }
     return render(request, 'employeeapp/create-record.html', context)
 
 
@@ -221,21 +231,26 @@ def employee_clockin_view(request):
 @login_required(login_url='login')
 def create_profile(request):
     """Handle profile creation."""
-    if request.method == 'POST':
-        form = ProfileForm(request.POST)
-        if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user = request.user
-            profile.save()
-            messages.success(request, 'Profile created successfully!')
-            return redirect('profile_detail', pk=profile.pk) 
+    try:
+        profile = request.user.profile
+        messages.info(request, "You already have a profile.")
+        return redirect('profile_detail', pk=profile.pk)
+    except Profile.DoesNotExist:
+        if request.method == 'POST':
+            form = ProfileForm(request.POST)
+            if form.is_valid():
+                profile = form.save(commit=False)
+                profile.user = request.user
+                profile.save()
+                messages.success(request, 'Profile created successfully!')
+                return redirect('profile_detail', pk=profile.pk) 
+            else:
+                messages.error(request, 'There was an error creating the profile.')
         else:
-            messages.error(request, 'There was an error creating the profile.')
-    else:
-        form = ProfileForm()
-    
-    context = {'form': form}
-    return render(request, 'employeeapp/create_profile.html', context)
+            form = ProfileForm()
+        
+        context = {'form': form}
+        return render(request, 'employeeapp/create_profile.html', context)
 
 @login_required(login_url='login')
 def edit_profile(request, pk):
